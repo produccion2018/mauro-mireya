@@ -35,7 +35,7 @@ export function Hero() {
         </div>
         <BotanicalMark />
         <p className="mt-7 font-script text-6xl leading-none text-gold">M&M</p>
-        <h1 className="mt-5 font-display text-2xl uppercase leading-relaxed tracking-[0.14em] text-cream sm:text-3xl">
+        <h1 className="mt-5 font-display text-3xl font-semibold uppercase leading-relaxed tracking-[0.1em] text-cream sm:text-4xl">
           {weddingConfig.groomName} <span className="text-gold">&</span> {weddingConfig.brideName}
         </h1>
         <p className="mt-5 text-[0.62rem] uppercase tracking-[0.48em] text-cream/65">Nuestra boda</p>
