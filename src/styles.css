@@ -19,6 +19,9 @@
  */
 
 @theme inline {
+  --font-display: "Cormorant Garamond", serif;
+  --font-script: "Great Vibes", cursive;
+  --font-sans: "Montserrat", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,6 +62,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-forest: var(--forest);
+  --color-forest-soft: var(--forest-soft);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-cream: var(--cream);
+  --shadow-luxury: 0 24px 70px color-mix(in oklab, var(--shadow-color) 48%, transparent);
 }
 
 :root {
@@ -95,6 +104,13 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --forest: oklch(0.32 0.04 145);
+  --forest-soft: oklch(0.37 0.045 145);
+  --gold: oklch(0.76 0.12 83);
+  --gold-soft: oklch(0.85 0.09 84);
+  --cream: oklch(0.955 0.023 86);
+  --gold-glow: oklch(0.76 0.12 83 / 0.28);
+  --shadow-color: oklch(0.12 0.02 145);
 }
 
 .dark {
@@ -140,5 +156,128 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    margin: 0;
+    min-width: 320px;
+    font-family: var(--font-sans);
+  }
+
+  button, a, input { -webkit-tap-highlight-color: transparent; }
+}
+
+@utility section-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+@utility section-rule {
+  border-top: 1px solid color-mix(in oklab, var(--gold) 24%, transparent);
+}
+
+@utility shadow-luxury {
+  box-shadow: var(--shadow-luxury);
+}
+
+@utility bg-hero-veil {
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--forest) 28%, transparent), var(--forest) 92%);
+}
+
+.wedding-shell {
+  width: min(100%, 72rem);
+  margin-inline: auto;
+  background: var(--forest);
+  color: var(--cream);
+  box-shadow: var(--shadow-luxury);
+}
+
+.monogram-seal {
+  position: relative;
+  border: 1px solid color-mix(in oklab, var(--gold) 80%, transparent);
+  outline: 1px solid color-mix(in oklab, var(--gold) 25%, transparent);
+  outline-offset: 8px;
+}
+
+.monogram-seal::before,
+.monogram-seal::after {
+  content: "";
+  position: absolute;
+  inset: 13px;
+  border: 1px dotted color-mix(in oklab, var(--gold) 40%, transparent);
+  border-radius: 999px;
+}
+
+.portrait-frame {
+  position: relative;
+  border: 1px solid var(--gold);
+  box-shadow: 0 0 0 7px color-mix(in oklab, var(--forest) 90%, transparent), 0 0 0 8px color-mix(in oklab, var(--gold) 50%, transparent);
+}
+
+.portrait-frame::before,
+.portrait-frame::after {
+  content: "❧";
+  position: absolute;
+  z-index: 2;
+  color: var(--gold);
+  font-family: serif;
+  font-size: 3rem;
+}
+
+.portrait-frame::before { left: -1.6rem; top: 0.8rem; transform: rotate(-48deg); }
+.portrait-frame::after { right: -1.6rem; bottom: 0.8rem; transform: rotate(132deg); }
+
+.botanical-corner {
+  position: absolute;
+  width: 18rem;
+  height: 18rem;
+  opacity: 0.28;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+}
+.botanical-corner::before,
+.botanical-corner::after {
+  content: "";
+  position: absolute;
+  width: 8rem;
+  height: 3rem;
+  border: 1px solid var(--gold);
+  border-radius: 100%;
+}
+.botanical-corner-left { left: -11rem; top: -7rem; }
+.botanical-corner-left::before { right: -2rem; bottom: 3rem; transform: rotate(30deg); }
+.botanical-corner-left::after { right: -4rem; bottom: 0; transform: rotate(55deg); }
+.botanical-corner-right { right: -11rem; bottom: -7rem; }
+.botanical-corner-right::before { left: -2rem; top: 3rem; transform: rotate(30deg); }
+.botanical-corner-right::after { left: -4rem; top: 0; transform: rotate(55deg); }
+
+.music-range {
+  accent-color: var(--gold);
+  height: 2px;
+  cursor: pointer;
+}
+
+.animate-spin-slow { animation: spin 7s linear infinite; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (min-width: 1024px) {
+  .wedding-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.62fr) minmax(20rem, 0.9fr);
+    margin-block: 3rem;
+    border: 1px solid color-mix(in oklab, var(--gold) 32%, transparent);
+  }
+  .wedding-main { border-right: 1px solid color-mix(in oklab, var(--gold) 32%, transparent); }
+  .wedding-aside { padding-top: 3rem; padding-bottom: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
