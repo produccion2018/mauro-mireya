@@ -1,151 +1,92 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUp, Pause, Play, RotateCcw, Volume2, VolumeX } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { weddingConfig } from "@/config/wedding";
-import { DressCode } from "./DressCode";
-import { Footer } from "./Footer";
-import { Gallery } from "./Gallery";
-import { Hero } from "./Hero";
-import { Location } from "./Location";
-import { MusicPlayer } from "./MusicPlayer";
-import { OurStory } from "./OurStory";
-import { RSVP } from "./RSVP";
-import { WeddingDate } from "./WeddingDate";
-import { WeddingIntro } from "./WeddingIntro";
+import { BotanicalMark, InterlockedRings } from "./ornaments";
 
-export function WeddingInvitation() {
-  const [opened, setOpened] = useState(false);
-  const [guestName, setGuestName] = useState("");
-  const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const audioRef = useRef<HTMLAudioElement>(null);
+export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
+  const [name, setName] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
-  const play = async () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    try {
-      await audio.play();
-      setPlaying(true);
-    } catch {
-      setPlaying(false);
-    }
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (name.trim()) setSubmitted(true);
   };
-
-  const toggle = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (audio.paused) void play();
-    else {
-      audio.pause();
-      setPlaying(false);
-    }
-  };
-
-  const openInvitation = (name: string) => {
-    setGuestName(name);
-    setOpened(true);
-    window.setTimeout(() => void play(), 80);
-  };
-
-  const seek = (value: number) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.currentTime = value;
-    setCurrentTime(value);
-  };
-
-  const restartInvitation = () => {
-    window.location.reload();
-  };
-
-  useEffect(() => {
-    document.body.style.overflow = opened ? "" : "hidden";
-    return () => { document.body.style.overflow = ""; };
-  }, [opened]);
 
   return (
-    <main className="min-h-svh bg-forest">
-      <audio
-        ref={audioRef}
-        src={weddingConfig.musicFile}
-        preload="metadata"
-        muted={muted}
-        loop
-        onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
-        onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
-      />
-      <AnimatePresence mode="wait">
-        {!opened ? (
-          <WeddingIntro key="intro" onOpen={openInvitation} />
-        ) : (
-          <motion.div key="invitation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9 }}>
-            <div className="wedding-shell">
-              <div className="wedding-main">
-                <Hero guestName={guestName} />
-                <div className="px-5 sm:px-10">
-                  <WeddingDate />
-                  <Location />
-                  <footer className="section-rule py-12 text-center lg:block hidden">
-                    <p className="section-kicker">Gracias{guestName ? `, ${guestName}` : ""}</p>
-                    <p className="mx-auto mt-4 max-w-md font-display text-xl italic leading-8 text-cream/75">
-                      {guestName
-                        ? `${guestName}, ${weddingConfig.weddingMessage}`
-                        : weddingConfig.weddingMessage}
-                    </p>
-                  </footer>
-                </div>
-              </div>
-              <aside className="wedding-aside px-5 sm:px-10 lg:px-8">
-                <OurStory />
-                <DressCode />
-                <Gallery />
-                <MusicPlayer playing={playing} currentTime={currentTime} duration={duration} onToggle={toggle} onSeek={seek} />
-                <RSVP />
-              </aside>
-              <div className="lg:col-span-2 lg:hidden"><Footer /></div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <motion.section
+      className="relative flex min-h-svh items-center justify-center overflow-hidden bg-forest px-6 py-12 text-center text-cream"
+      exit={{ opacity: 0, scale: 1.02 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="botanical-corner botanical-corner-left" aria-hidden="true" />
+      <div className="botanical-corner botanical-corner-right" aria-hidden="true" />
+      <motion.div
+        className="relative z-10 mx-auto w-full max-w-xl"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <InterlockedRings />
+        <p className="mt-7 text-[0.62rem] uppercase tracking-[0.46em] text-cream/65">Tenemos el honor de invitarte</p>
+        <motion.div
+          className="monogram-seal mx-auto my-8 flex size-40 items-center justify-center rounded-full"
+          animate={{ boxShadow: ["0 0 0 0 transparent", "0 0 45px 2px var(--gold-glow)", "0 0 0 0 transparent"] }}
+          transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <span className="font-script text-7xl text-gold">M&M</span>
+        </motion.div>
+        <BotanicalMark />
+        <h1 className="mt-8 font-display text-3xl uppercase leading-tight tracking-[0.12em] sm:text-4xl">
+          {weddingConfig.groomName} <span className="block py-2 font-script text-3xl normal-case tracking-normal text-gold">&</span>{" "}
+          {weddingConfig.brideName}
+        </h1>
+        <p className="mt-5 font-display text-sm uppercase tracking-[0.5em] text-cream/75">Nuestra boda</p>
 
-      {opened && (
-        <>
-          <motion.div className="fixed bottom-4 right-4 z-50 flex items-center gap-1 border border-gold/40 bg-forest/95 p-1 shadow-luxury backdrop-blur" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-            <Button variant="weddingIcon" size="icon" onClick={toggle} aria-label={playing ? "Pausar canción" : "Reproducir canción"}>
-              {playing ? <Pause /> : <Play />}
-            </Button>
-            <Button
-              variant="weddingIcon"
-              size="icon"
-              onClick={() => setMuted((value) => !value)}
-              aria-label={muted ? "Activar sonido" : "Silenciar canción"}
+        <AnimatePresence mode="wait">
+          {!submitted ? (
+            <motion.form
+              key="form"
+              onSubmit={handleSubmit}
+              className="mx-auto mt-10 flex max-w-xs flex-col items-center gap-3"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             >
-              {muted ? <VolumeX /> : <Volume2 />}
-            </Button>
-          </motion.div>
-          <motion.div className="fixed bottom-4 left-4 z-50 flex items-center gap-1 border border-gold/40 bg-forest/95 p-1 shadow-luxury backdrop-blur" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-            <Button
-              variant="weddingIcon"
-              size="icon"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              aria-label="Volver al inicio"
+              <label htmlFor="guest-name" className="text-[0.6rem] uppercase tracking-[0.3em] text-cream/65">
+                Ingresá tu nombre
+              </label>
+              <input
+                id="guest-name"
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Tu nombre"
+                required
+                className="w-full border-b border-gold/50 bg-transparent px-2 py-2 text-center font-display text-lg text-cream placeholder:text-cream/40 focus:border-gold focus:outline-none"
+              />
+              <Button type="submit" variant="wedding" size="wedding" className="mt-3">
+                Continuar
+              </Button>
+            </motion.form>
+          ) : (
+            <motion.div
+              key="thanks"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="mt-10"
             >
-              <ArrowUp />
-            </Button>
-            <Button
-              variant="weddingIcon"
-              size="icon"
-              onClick={restartInvitation}
-              aria-label="Volver a la invitación de portada"
-            >
-              <RotateCcw />
-            </Button>
-          </motion.div>
-        </>
-      )}
-    </main>
+              <p className="font-display text-xl italic text-cream/90">¡Gracias, {name}!</p>
+              <p className="mt-1 text-[0.62rem] uppercase tracking-[0.4em] text-cream/60">Nos alegra que nos acompañes</p>
+              <Button variant="wedding" size="wedding" onClick={() => onOpen(name)} className="mt-8">
+                <Sparkles aria-hidden="true" /> Abrir invitación
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.section>
   );
 }

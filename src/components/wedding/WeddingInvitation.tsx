@@ -16,6 +16,7 @@ import { WeddingIntro } from "./WeddingIntro";
 
 export function WeddingInvitation() {
   const [opened, setOpened] = useState(false);
+  const [guestName, setGuestName] = useState("");
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -43,7 +44,8 @@ export function WeddingInvitation() {
     }
   };
 
-  const openInvitation = () => {
+  const openInvitation = (name: string) => {
+    setGuestName(name);
     setOpened(true);
     window.setTimeout(() => void play(), 80);
   };
@@ -82,13 +84,17 @@ export function WeddingInvitation() {
           <motion.div key="invitation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9 }}>
             <div className="wedding-shell">
               <div className="wedding-main">
-                <Hero />
+                <Hero guestName={guestName} />
                 <div className="px-5 sm:px-10">
                   <WeddingDate />
                   <Location />
                   <footer className="section-rule py-12 text-center lg:block hidden">
-                    <p className="section-kicker">Gracias</p>
-                    <p className="mx-auto mt-4 max-w-md font-display text-xl italic leading-8 text-cream/75">{weddingConfig.weddingMessage}</p>
+                    <p className="section-kicker">Gracias{guestName ? `, ${guestName}` : ""}</p>
+                    <p className="mx-auto mt-4 max-w-md font-display text-xl italic leading-8 text-cream/75">
+                      {guestName
+                        ? `${guestName}, ${weddingConfig.weddingMessage}`
+                        : weddingConfig.weddingMessage}
+                    </p>
                   </footer>
                 </div>
               </div>
