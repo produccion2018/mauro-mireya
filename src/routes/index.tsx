@@ -8,9 +8,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Mauro & Mireya — Nuestra boda" },
-      { name: "description", content: "Invitación a la boda de Mauroy Mireya ." },
+      { name: "description", content: "Invitación a la boda de Mauro Pinto y Mireya Becerra." },
       { property: "og:title", content: "Mauro & Mireya — Nuestra boda" },
-      { property: "og:description", content: "Invitación a la boda de Mauro  y Mireya ." },
+      { property: "og:description", content: "Invitación a la boda de Mauro Pinto y Mireya Becerra." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
