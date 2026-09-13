@@ -79,7 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Mauro & Mireya" },
       { name: "description", content: "Invitación de boda de Mauro y Mireya." },
-      { name: "author", content: "Mauro Pinto y Mireya Becerra" },
+      { name: "author", content: "Mauro y Mireya " },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
