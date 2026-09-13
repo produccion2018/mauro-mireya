@@ -5,7 +5,8 @@ import { SectionReveal } from "./SectionReveal";
 
 export function RSVP() {
   const message = encodeURIComponent(`Hola, queremos confirmar nuestra asistencia a la boda de ${weddingConfig.groomName} y ${weddingConfig.brideName}.`);
-  const url = weddingConfig.whatsappNumber ? `https://wa.me/${weddingConfig.whatsappNumber.replace(/\D/g, "")}?text=${message}` : "";
+  const whatsappNumber: string = weddingConfig.whatsappNumber;
+  const url = whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}?text=${message}` : "";
   return (
     <SectionReveal className="section-rule py-12 text-center" aria-labelledby="rsvp-title">
       <MessageCircleHeart className="mx-auto size-8 text-gold" strokeWidth={1} aria-hidden="true" />
