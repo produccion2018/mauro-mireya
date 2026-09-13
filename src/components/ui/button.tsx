@@ -16,12 +16,19 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        wedding:
+          "border border-gold bg-gold px-7 font-sans text-[0.66rem] uppercase tracking-[0.24em] text-forest shadow-luxury hover:bg-gold-soft",
+        weddingOutline:
+          "border border-gold/60 bg-transparent px-7 font-sans text-[0.66rem] uppercase tracking-[0.24em] text-gold hover:bg-gold/10",
+        weddingIcon:
+          "border border-gold/50 bg-transparent text-gold hover:bg-gold/10 hover:text-gold-soft",
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
+        wedding: "h-12 px-7",
       },
     },
     defaultVariants: {
