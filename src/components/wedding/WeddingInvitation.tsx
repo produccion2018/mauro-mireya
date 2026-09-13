@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Pause, Play, Volume2, VolumeX } from "lucide-react";
+import { ArrowUp, Pause, Play, RotateCcw, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { weddingConfig } from "@/config/wedding";
 import { DressCode } from "./DressCode";
@@ -55,6 +55,10 @@ export function WeddingInvitation() {
     setCurrentTime(value);
   };
 
+  const restartInvitation = () => {
+    window.location.reload();
+  };
+
   useEffect(() => {
     document.body.style.overflow = opened ? "" : "hidden";
     return () => { document.body.style.overflow = ""; };
@@ -62,7 +66,7 @@ export function WeddingInvitation() {
 
   return (
     <main className="min-h-svh bg-forest">
-           <audio
+      <audio
         ref={audioRef}
         src={weddingConfig.musicFile}
         preload="metadata"
@@ -102,19 +106,39 @@ export function WeddingInvitation() {
       </AnimatePresence>
 
       {opened && (
-        <motion.div className="fixed bottom-4 right-4 z-50 flex items-center gap-1 border border-gold/40 bg-forest/95 p-1 shadow-luxury backdrop-blur" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-          <Button variant="weddingIcon" size="icon" onClick={toggle} aria-label={playing ? "Pausar canción" : "Reproducir canción"}>
-            {playing ? <Pause /> : <Play />}
-          </Button>
-          <Button
-            variant="weddingIcon"
-            size="icon"
-            onClick={() => setMuted((value) => !value)}
-            aria-label={muted ? "Activar sonido" : "Silenciar canción"}
-          >
-            {muted ? <VolumeX /> : <Volume2 />}
-          </Button>
-        </motion.div>
+        <>
+          <motion.div className="fixed bottom-4 right-4 z-50 flex items-center gap-1 border border-gold/40 bg-forest/95 p-1 shadow-luxury backdrop-blur" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+            <Button variant="weddingIcon" size="icon" onClick={toggle} aria-label={playing ? "Pausar canción" : "Reproducir canción"}>
+              {playing ? <Pause /> : <Play />}
+            </Button>
+            <Button
+              variant="weddingIcon"
+              size="icon"
+              onClick={() => setMuted((value) => !value)}
+              aria-label={muted ? "Activar sonido" : "Silenciar canción"}
+            >
+              {muted ? <VolumeX /> : <Volume2 />}
+            </Button>
+          </motion.div>
+          <motion.div className="fixed bottom-4 left-4 z-50 flex items-center gap-1 border border-gold/40 bg-forest/95 p-1 shadow-luxury backdrop-blur" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+            <Button
+              variant="weddingIcon"
+              size="icon"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              aria-label="Volver al inicio"
+            >
+              <ArrowUp />
+            </Button>
+            <Button
+              variant="weddingIcon"
+              size="icon"
+              onClick={restartInvitation}
+              aria-label="Volver a la invitación de portada"
+            >
+              <RotateCcw />
+            </Button>
+          </motion.div>
+        </>
       )}
     </main>
   );
