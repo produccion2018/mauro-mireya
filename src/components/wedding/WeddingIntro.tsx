@@ -1,10 +1,19 @@
-import { motion } from "framer-motion";
+import { useState, type FormEvent } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { weddingConfig } from "@/config/wedding";
 import { BotanicalMark, InterlockedRings } from "./ornaments";
 
-export function WeddingIntro({ onOpen }: { onOpen: () => void }) {
+export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
+  const [name, setName] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (name.trim()) setSubmitted(true);
+  };
+
   return (
     <motion.section
       className="relative flex min-h-svh items-center justify-center overflow-hidden bg-forest px-6 py-12 text-center text-cream"
@@ -34,9 +43,49 @@ export function WeddingIntro({ onOpen }: { onOpen: () => void }) {
           {weddingConfig.brideName}
         </h1>
         <p className="mt-5 font-display text-sm uppercase tracking-[0.5em] text-cream/75">Nuestra boda</p>
-        <Button variant="wedding" size="wedding" onClick={onOpen} className="mt-10">
-          <Sparkles aria-hidden="true" /> Abrir invitación
-        </Button>
+
+        <AnimatePresence mode="wait">
+          {!submitted ? (
+            <motion.form
+              key="form"
+              onSubmit={handleSubmit}
+              className="mx-auto mt-10 flex max-w-xs flex-col items-center gap-3"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <label htmlFor="guest-name" className="text-[0.6rem] uppercase tracking-[0.3em] text-cream/65">
+                Ingresá tu nombre
+              </label>
+              <input
+                id="guest-name"
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Tu nombre"
+                required
+                className="w-full border-b border-gold/50 bg-transparent px-2 py-2 text-center font-display text-lg text-cream placeholder:text-cream/40 focus:border-gold focus:outline-none"
+              />
+              <Button type="submit" variant="wedding" size="wedding" className="mt-3">
+                Continuar
+              </Button>
+            </motion.form>
+          ) : (
+            <motion.div
+              key="thanks"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="mt-10"
+            >
+              <p className="font-display text-xl italic text-cream/90">¡Gracias, {name}!</p>
+              <p className="mt-1 text-[0.62rem] uppercase tracking-[0.4em] text-cream/60">Nos alegra que nos acompañes</p>
+              <Button variant="wedding" size="wedding" onClick={() => onOpen(name)} className="mt-8">
+                <Sparkles aria-hidden="true" /> Abrir invitación
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </motion.section>
   );
