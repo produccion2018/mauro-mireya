@@ -1,6 +1,6 @@
 export const weddingConfig = {
-  groomName: "Mauro Pinto",
-  brideName: "Mireya Becerra",
+  groomName: "Mauro",
+  brideName: "Mireya",
   weddingDate: "",
   weddingTime: "",
   ceremonyLocation: "",
