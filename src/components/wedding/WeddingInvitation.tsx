@@ -112,24 +112,16 @@ export function WeddingInvitation() {
       </AnimatePresence>
 
       {opened && (
-        <>
-          <motion.div className="fixed bottom-4 right-4 z-50 flex items-center gap-1 border border-gold/40 bg-forest/95 p-1 shadow-luxury backdrop-blur" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-            <Button variant="weddingIcon" size="icon" onClick={toggle} aria-label={playing ? "Pausar canción" : "Reproducir canción"}>
-              {playing ? <Pause /> : <Play />}
-            </Button>
+        <motion.div
+          className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="flex items-center gap-1 rounded-full border border-gold/40 bg-forest/95 p-1.5 shadow-luxury backdrop-blur">
             <Button
               variant="weddingIcon"
               size="icon"
-              onClick={() => setMuted((value) => !value)}
-              aria-label={muted ? "Activar sonido" : "Silenciar canción"}
-            >
-              {muted ? <VolumeX /> : <Volume2 />}
-            </Button>
-          </motion.div>
-          <motion.div className="fixed bottom-4 left-4 z-50 flex items-center gap-1 border border-gold/40 bg-forest/95 p-1 shadow-luxury backdrop-blur" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-            <Button
-              variant="weddingIcon"
-              size="icon"
+              className="rounded-full"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               aria-label="Volver al inicio"
             >
@@ -138,13 +130,33 @@ export function WeddingInvitation() {
             <Button
               variant="weddingIcon"
               size="icon"
+              className="rounded-full"
               onClick={restartInvitation}
               aria-label="Volver a la invitación de portada"
             >
               <RotateCcw />
             </Button>
-          </motion.div>
-        </>
+            <div className="mx-1 h-6 w-px bg-gold/30" aria-hidden="true" />
+            <Button
+              variant="weddingIcon"
+              size="icon"
+              className="rounded-full"
+              onClick={toggle}
+              aria-label={playing ? "Pausar canción" : "Reproducir canción"}
+            >
+              {playing ? <Pause /> : <Play />}
+            </Button>
+            <Button
+              variant="weddingIcon"
+              size="icon"
+              className="rounded-full"
+              onClick={() => setMuted((value) => !value)}
+              aria-label={muted ? "Activar sonido" : "Silenciar canción"}
+            >
+              {muted ? <VolumeX /> : <Volume2 />}
+            </Button>
+          </div>
+        </motion.div>
       )}
     </main>
   );
