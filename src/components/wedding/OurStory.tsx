@@ -1,6 +1,16 @@
-import { Heart, Hourglass } from "lucide-react";
-import { weddingConfig } from "@/config/wedding";
+import { Heart, Hourglass, Leaf } from "lucide-react";
 import { SectionReveal } from "./SectionReveal";
+
+const verses = [
+  {
+    text: "Y sobre todo esto, el amor, que es el vínculo perfecto de la unidad.",
+    reference: "Colosenses 3:14",
+  },
+  {
+    text: "Así que no son ya más dos, sino una sola carne; por tanto, lo que Dios unió, no lo separe el hombre.",
+    reference: "Mateo 19:6",
+  },
+];
 
 export function OurStory() {
   return (
@@ -12,12 +22,12 @@ export function OurStory() {
       <p className="section-kicker mt-4 text-center">Nuestra historia</p>
       <h2 id="historia-title" className="sr-only">Nuestra historia</h2>
       <div className="mt-7 space-y-7">
-        {weddingConfig.ourStory.map((item) => (
-          <article key={item.title} className="grid grid-cols-[3.4rem_1fr] gap-4">
-            <span className="font-display text-sm text-gold">{item.year}</span>
+        {verses.map((verse) => (
+          <article key={verse.reference} className="grid grid-cols-[3.4rem_1fr] gap-4">
+            <Leaf className="size-6 text-gold/70" strokeWidth={1} aria-hidden="true" />
             <div className="border-l border-gold/30 pl-4">
-              <h3 className="font-display text-lg text-cream">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-cream/60">{item.text}</p>
+              <p className="font-display text-lg italic leading-7 text-cream">"{verse.text}"</p>
+              <p className="section-kicker mt-3">{verse.reference}</p>
             </div>
           </article>
         ))}

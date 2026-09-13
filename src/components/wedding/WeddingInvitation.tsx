@@ -62,14 +62,14 @@ export function WeddingInvitation() {
 
   return (
     <main className="min-h-svh bg-forest">
-      <audio
+           <audio
         ref={audioRef}
         src={weddingConfig.musicFile}
         preload="metadata"
         muted={muted}
+        loop
         onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
         onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
-        onEnded={() => setPlaying(false)}
       />
       <AnimatePresence mode="wait">
         {!opened ? (

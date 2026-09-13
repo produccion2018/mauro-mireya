@@ -1,7 +1,7 @@
 export const weddingConfig = {
   groomName: "Mauro",
   brideName: "Mireya",
-  weddingDate: "",
+  weddingDate: "2026-12-26",
   weddingTime: "",
   ceremonyLocation: "",
   receptionLocation: "",
@@ -11,8 +11,7 @@ export const weddingConfig = {
   dressCode: "Formal elegante",
   weddingMessage: "Queremos compartir este día tan especial con vos.",
 
-  // TODO: reemplazar por la canción real en /public/music/nuestra-cancion.mp3.
-  musicFile: "/music/nuestra-cancion.mp3",
+  musicFile: "/music/coro_desde_1m20s.mp3",
   songTitle: "",
   songArtist: "",
 
