@@ -105,7 +105,7 @@ export function WeddingInvitation() {
                 <MusicPlayer playing={playing} currentTime={currentTime} duration={duration} onToggle={toggle} onSeek={seek} />
                 <RSVP />
               </aside>
-              <div className="lg:col-span-2 lg:hidden"><Footer /></div>
+              <div className="lg:col-span-2 lg:hidden"><Footer guestName={guestName} /></div>
             </div>
           </motion.div>
         )}
