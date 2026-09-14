@@ -5,7 +5,7 @@ import { BotanicalMark, InterlockedRings } from "./ornaments";
 
 const heroFallback = "https://placehold.co/1200x1500/2C3B2D/D4AF37?text=Hero+Background";
 
-export function Hero() {
+export function Hero({ guestName }: { guestName?: string }) {
   return (
     <section className="relative flex min-h-[78svh] items-center justify-center overflow-hidden px-6 py-20 text-center">
       <motion.div
@@ -40,6 +40,11 @@ export function Hero() {
         </h1>
         <p className="mt-5 text-[0.62rem] uppercase tracking-[0.48em] text-cream/65">Nuestra boda</p>
         <p className="mt-5 font-display text-lg italic text-cream/80">Dos caminos, un mismo destino</p>
+        {guestName && (
+          <p className="mt-6 font-display text-base italic text-gold">
+            Gracias por acompañarnos, {guestName}
+          </p>
+        )}
       </motion.div>
     </section>
   );

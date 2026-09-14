@@ -91,10 +91,13 @@ export function WeddingInvitation() {
                   <footer className="section-rule py-12 text-center lg:block hidden">
                     <p className="section-kicker">Gracias{guestName ? `, ${guestName}` : ""}</p>
                     <p className="mx-auto mt-4 max-w-md font-display text-xl italic leading-8 text-cream/75">
-                      {guestName
-                        ? `${guestName}, ${weddingConfig.weddingMessage}`
-                        : weddingConfig.weddingMessage}
+                      {weddingConfig.weddingMessage}
                     </p>
+                    {guestName && (
+                      <p className="mx-auto mt-3 max-w-md font-display text-base italic leading-7 text-gold">
+                        Que la bendición de Dios acompañe siempre a {guestName}.
+                      </p>
+                    )}
                   </footer>
                 </div>
               </div>

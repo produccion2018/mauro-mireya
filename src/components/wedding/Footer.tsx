@@ -11,7 +11,7 @@ export function Footer({ guestName }: { guestName?: string }) {
       </p>
       {guestName && (
         <p className="mx-auto mt-4 max-w-md font-display text-base italic leading-7 text-gold">
-          "El Señor bendiga a {guestName} y guarde su vida" — que Dios te acompañe siempre en tu camino.
+          Que la bendición de Dios acompañe siempre a {guestName}.
         </p>
       )}
       <BotanicalMark />
