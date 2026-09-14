@@ -25,12 +25,30 @@ export function RSVP() {
   const [mensaje, setMensaje] = useState("");
   const [estado, setEstado] = useState<"idle" | "enviando" | "enviado" | "error">("idle");
 
-  useEffect(() => {
-    fetch(`${API_URL}/invitados/nombres`)
-      .then((res) => res.json())
-      .then(setInvitados)
-      .catch(() => setEstado("error"));
-  }, []);
+ useEffect(() => {
+  async function cargarInvitados() {
+    try {
+      const res = await fetch(`${API_URL}/invitados/nombres`);
+
+      if (!res.ok) {
+        throw new Error("No se pudo cargar la lista de invitados");
+      }
+
+      const data = await res.json();
+
+      if (!Array.isArray(data)) {
+        throw new Error("Respuesta inválida del servidor");
+      }
+
+      setInvitados(data);
+    } catch (error) {
+      console.error("Error al cargar invitados:", error);
+      setEstado("error");
+    }
+  }
+
+  cargarInvitados();
+}, []);
 
   const puedeEnviar = invitadoId !== "" && confirmado !== "" && estado !== "enviando";
 
