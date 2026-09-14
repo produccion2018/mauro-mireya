@@ -14,7 +14,7 @@ import { SectionReveal } from "./SectionReveal";
 
 // En desarrollo: si no configurás VITE_API_URL en tu .env del frontend,
 // usa localhost con el puerto de tu backend/.env (ajustalo si no es 3000).
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5000/api";
 
 type Invitado = { id: number; nombre: string; grupo_familiar?: string };
 
