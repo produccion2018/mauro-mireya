@@ -1,19 +1,34 @@
 import { useState, type FormEvent } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { weddingConfig } from "@/config/wedding";
 import { isGroupGuest } from "@/lib/guest-name";
 import { BigInterlockedRings, BotanicalMark } from "./ornaments";
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0 },
+};
+
 export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const isGroup = isGroupGuest(name);
+  const reduceMotion = useReducedMotion();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name.trim()) setSubmitted(true);
+  };
+
+  const containerVariants = {
+    hidden: {},
+    show: {
+      transition: reduceMotion
+        ? { staggerChildren: 0 }
+        : { staggerChildren: 0.22, delayChildren: 0.1 },
+    },
   };
 
   return (
@@ -24,54 +39,84 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
     >
       <div className="botanical-corner botanical-corner-left" aria-hidden="true" />
       <div className="botanical-corner botanical-corner-right" aria-hidden="true" />
+
       <motion.div
         className="relative z-10 mx-auto w-full max-w-xl py-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
       >
-        <p className="text-[0.6rem] uppercase tracking-[0.44em] text-cream/65">
+        <motion.p
+          variants={itemVariants}
+          transition={{ duration: 0.7 }}
+          className="text-[0.6rem] uppercase tracking-[0.44em] text-cream/65"
+        >
           Tenemos el honor de invitarte
-        </p>
+        </motion.p>
 
         <motion.div
+          variants={itemVariants}
+          transition={{ duration: 0.7 }}
           className="monogram-seal mx-auto my-5 flex size-32 items-center justify-center rounded-full"
-          animate={{
-            boxShadow: [
-              "0 0 0 0 transparent",
-              "0 0 45px 2px var(--gold-glow)",
-              "0 0 0 0 transparent",
-            ],
-          }}
-          transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
         >
-          <span className="font-script text-6xl text-cream">M&M</span>
+          <motion.span
+            className="font-script text-6xl text-cream"
+            animate={
+              reduceMotion
+                ? undefined
+                : {
+                    textShadow: [
+                      "0 0 0px rgba(255,255,255,0)",
+                      "0 0 22px var(--gold-glow)",
+                      "0 0 0px rgba(255,255,255,0)",
+                    ],
+                  }
+            }
+            transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+          >
+            M&M
+          </motion.span>
         </motion.div>
 
-        <BigInterlockedRings />
+        <motion.div variants={itemVariants} transition={{ duration: 0.7 }}>
+          <BigInterlockedRings />
+        </motion.div>
 
-        <BotanicalMark />
+        <motion.div variants={itemVariants} transition={{ duration: 0.7 }}>
+          <BotanicalMark />
+        </motion.div>
 
-        <h1 className="mt-5 font-display text-2xl uppercase leading-tight tracking-[0.12em] sm:text-3xl">
+        <motion.h1
+          variants={itemVariants}
+          transition={{ duration: 0.7 }}
+          className="mt-5 font-display text-2xl uppercase leading-tight tracking-[0.12em] sm:text-3xl"
+        >
           {weddingConfig.groomName}{" "}
           <span className="block py-1 font-script text-2xl normal-case tracking-normal text-gold">
             &
           </span>{" "}
           {weddingConfig.brideName}
-        </h1>
-        <p className="mt-3 font-display text-xs uppercase tracking-[0.44em] text-cream/75">
+        </motion.h1>
+
+        <motion.p
+          variants={itemVariants}
+          transition={{ duration: 0.7 }}
+          className="mt-3 font-display text-xs uppercase tracking-[0.44em] text-cream/75"
+        >
           Nuestra boda
-        </p>
+        </motion.p>
 
         <AnimatePresence mode="wait">
           {!submitted ? (
             <motion.form
               key="form"
               onSubmit={handleSubmit}
-              className="mx-auto mt-6 flex max-w-xs flex-col items-center gap-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              variants={itemVariants}
+              initial="hidden"
+              animate="show"
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.7, delay: reduceMotion ? 0 : 1.6 }}
+              className="mx-auto mt-6 flex max-w-xs flex-col items-center gap-3"
             >
               <label htmlFor="guest-name" className="text-[0.6rem] uppercase tracking-[0.3em] text-cream/65">
                 Ingresa tu nombre
