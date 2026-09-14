@@ -1,15 +1,16 @@
 import { useState, type FormEvent } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { weddingConfig } from "@/config/wedding";
 import { isGroupGuest } from "@/lib/guest-name";
-import { BigInterlockedRings, BotanicalMark } from "./ornaments";
+import { BotanicalMark } from "./ornaments";
 
 export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const isGroup = isGroupGuest(name);
+  const reduceMotion = useReducedMotion();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,8 +20,10 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
   return (
     <motion.section
       className="relative flex min-h-svh items-center justify-center overflow-y-auto overflow-x-hidden bg-forest px-6 py-8 text-center text-cream"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.02 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduceMotion ? 0 : 1.15, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="botanical-corner botanical-corner-left" aria-hidden="true" />
       <div className="botanical-corner botanical-corner-right" aria-hidden="true" />
@@ -28,27 +31,35 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
         className="relative z-10 mx-auto w-full max-w-xl py-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: reduceMotion ? 0 : 1, delay: reduceMotion ? 0 : 0.25 }}
       >
         <p className="text-[0.6rem] uppercase tracking-[0.44em] text-cream/65">
           Tenemos el honor de invitarte
         </p>
 
         <motion.div
-          className="monogram-seal mx-auto my-5 flex size-32 items-center justify-center rounded-full"
-          animate={{
-            boxShadow: [
-              "0 0 0 0 transparent",
-              "0 0 45px 2px var(--gold-glow)",
-              "0 0 0 0 transparent",
-            ],
-          }}
-          transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
+          className="mx-auto my-5 flex h-32 items-center justify-center"
+          initial={{ opacity: 0, scale: reduceMotion ? 1 : 0.94 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: reduceMotion ? 0 : 1.2, delay: reduceMotion ? 0 : 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="font-script text-6xl text-cream">M&M</span>
+          <span className="font-display text-8xl font-medium leading-none text-cream sm:text-9xl">M&amp;M</span>
         </motion.div>
 
-        <BigInterlockedRings />
+        <div className="relative mx-auto h-24 w-40 text-gold" aria-label="Dos anillos entrelazados">
+          <motion.span
+            className="absolute left-3 top-2 size-20 rounded-full border-2 border-current"
+            initial={{ opacity: 0, x: reduceMotion ? 0 : -96 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 1.5, delay: reduceMotion ? 0 : 1.85, ease: [0.22, 1, 0.36, 1] }}
+          />
+          <motion.span
+            className="absolute right-3 top-2 size-20 rounded-full border-2 border-current"
+            initial={{ opacity: 0, x: reduceMotion ? 0 : 96 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 1.5, delay: reduceMotion ? 0 : 1.85, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </div>
 
         <BotanicalMark />
 
