@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { weddingConfig } from "@/config/wedding";
 import { ImageWithFallback } from "./image-with-fallback";
-import { BotanicalMark, InterlockedRings } from "./ornaments";
+import { BotanicalMark, BigInterlockedRings } from "./ornaments";
 
 const heroFallback = "https://placehold.co/1200x1500/2C3B2D/D4AF37?text=Hero+Background";
 
@@ -32,9 +32,8 @@ export function Hero({ guestName }: { guestName?: string }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        <InterlockedRings />
+        <BigInterlockedRings />
         <BotanicalMark />
-        <p className="mt-7 font-script text-6xl leading-none text-gold">M&M</p>
         <h1 className="mt-5 font-display text-2xl uppercase leading-relaxed tracking-[0.14em] text-cream sm:text-3xl">
           {weddingConfig.groomName} <span className="text-gold">&</span> {weddingConfig.brideName}
         </h1>

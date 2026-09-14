@@ -54,30 +54,6 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
           Tenemos el honor de invitarte
         </motion.p>
 
-        <motion.div
-          variants={itemVariants}
-          transition={{ duration: 0.7 }}
-          className="monogram-seal mx-auto my-5 flex size-32 items-center justify-center rounded-full"
-        >
-          <motion.span
-            className="font-script text-6xl text-cream"
-            animate={
-              reduceMotion
-                ? undefined
-                : {
-                    textShadow: [
-                      "0 0 0px rgba(255,255,255,0)",
-                      "0 0 22px var(--gold-glow)",
-                      "0 0 0px rgba(255,255,255,0)",
-                    ],
-                  }
-            }
-            transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-          >
-            M&M
-          </motion.span>
-        </motion.div>
-
         <motion.div variants={itemVariants} transition={{ duration: 0.7 }}>
           <BigInterlockedRings />
         </motion.div>
