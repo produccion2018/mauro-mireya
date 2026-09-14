@@ -31,3 +31,12 @@ export function InterlockedRings() {
     </div>
   );
 }
+
+export function BigInterlockedRings() {
+  return (
+    <div className="relative mx-auto h-24 w-40 text-cream" aria-label="Dos anillos entrelazados">
+      <span className="absolute left-3 top-2 size-20 rounded-full border-2 border-current" />
+      <span className="absolute right-3 top-2 size-20 rounded-full border-2 border-gold" />
+    </div>
+  );
+}
