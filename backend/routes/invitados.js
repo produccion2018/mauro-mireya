@@ -1,11 +1,11 @@
 import { Router } from "express";
+import { Resend } from "resend";
 import db from "../db.js";
 
 const router = Router();
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // GET /api/invitados/nombres
-// Devuelve solo id + nombre, para armar el desplegable del formulario de RSVP.
-// Liviano: no manda datos sensibles ni de confirmación.
 router.get("/invitados/nombres", async (req, res) => {
   try {
     const result = await db.execute(
@@ -19,7 +19,6 @@ router.get("/invitados/nombres", async (req, res) => {
 });
 
 // GET /api/invitados
-// Lista completa (para vos, panel de control interno).
 router.get("/invitados", async (req, res) => {
   try {
     const result = await db.execute("SELECT * FROM invitados ORDER BY nombre ASC");
@@ -31,7 +30,6 @@ router.get("/invitados", async (req, res) => {
 });
 
 // POST /api/rsvp
-// Recibe { id, confirmado, mensaje } — el id viene del desplegable (no un código a mano).
 router.post("/rsvp", async (req, res) => {
   const { id, confirmado, mensaje } = req.body;
 
@@ -52,10 +50,35 @@ router.post("/rsvp", async (req, res) => {
     }
 
     res.json({ ok: true, message: "Respuesta guardada" });
+
+    enviarNotificacionRSVP(id, confirmado, mensaje).catch((err) => {
+      console.error("Error al enviar email de notificación RSVP:", err);
+    });
   } catch (error) {
     console.error("Error al guardar RSVP:", error);
     res.status(500).json({ error: "Error al guardar la respuesta" });
   }
 });
+
+async function enviarNotificacionRSVP(id, confirmado, mensaje) {
+  const invitado = await db.execute({
+    sql: "SELECT nombre, grupo_familiar FROM invitados WHERE id = ?",
+    args: [id],
+  });
+
+  const nombre = invitado.rows[0]?.nombre || `Invitado #${id}`;
+  const estado = confirmado ? "✅ CONFIRMÓ asistencia" : "❌ NO podrá asistir";
+
+  await resend.emails.send({
+    from: "onboarding@resend.dev",
+    to: [process.env.NOTIFY_EMAIL_MAURO, process.env.NOTIFY_EMAIL_MIREYA],
+    subject: `RSVP boda: ${nombre} — ${confirmado ? "confirmó" : "no puede ir"}`,
+    html: `
+      <h2>${estado}</h2>
+      <p><strong>Invitado:</strong> ${nombre}</p>
+      ${mensaje ? `<p><strong>Mensaje:</strong> ${mensaje}</p>` : ""}
+    `,
+  });
+}
 
 export default router;
