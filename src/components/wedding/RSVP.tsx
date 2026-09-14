@@ -1,20 +1,127 @@
+import { useEffect, useState } from "react";
 import { MessageCircleHeart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { weddingConfig } from "@/config/wedding";
+import { Textarea } from "@/components/ui/textarea";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { SectionReveal } from "./SectionReveal";
 
+// En desarrollo: si no configurás VITE_API_URL en tu .env del frontend,
+// usa localhost con el puerto de tu backend/.env (ajustalo si no es 3000).
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
+
+type Invitado = { id: number; nombre: string; grupo_familiar?: string };
+
 export function RSVP() {
-  const message = encodeURIComponent(`Hola, queremos confirmar nuestra asistencia a la boda de ${weddingConfig.groomName} y ${weddingConfig.brideName}.`);
-  const whatsappNumber: string = weddingConfig.whatsappNumber;
-  const url = whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}?text=${message}` : "";
+  const [invitados, setInvitados] = useState<Invitado[]>([]);
+  const [invitadoId, setInvitadoId] = useState<string>("");
+  const [confirmado, setConfirmado] = useState<"si" | "no" | "">("");
+  const [mensaje, setMensaje] = useState("");
+  const [estado, setEstado] = useState<"idle" | "enviando" | "enviado" | "error">("idle");
+
+  useEffect(() => {
+    fetch(`${API_URL}/invitados/nombres`)
+      .then((res) => res.json())
+      .then(setInvitados)
+      .catch(() => setEstado("error"));
+  }, []);
+
+  const puedeEnviar = invitadoId !== "" && confirmado !== "" && estado !== "enviando";
+
+  async function handleEnviar() {
+    setEstado("enviando");
+    try {
+      const res = await fetch(`${API_URL}/rsvp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: Number(invitadoId),
+          confirmado: confirmado === "si",
+          mensaje,
+        }),
+      });
+      if (!res.ok) throw new Error("fallo");
+      setEstado("enviado");
+    } catch {
+      setEstado("error");
+    }
+  }
+
+  if (estado === "enviado") {
+    return (
+      <SectionReveal className="section-rule py-12 text-center" aria-labelledby="rsvp-title">
+        <MessageCircleHeart className="mx-auto size-8 text-gold" strokeWidth={1} aria-hidden="true" />
+        <p className="section-kicker mt-4">Confirma tu asistencia</p>
+        <h2 id="rsvp-title" className="mt-3 font-display text-2xl text-cream">
+          {confirmado === "si" ? "¡Gracias, te esperamos!" : "Gracias por avisarnos"}
+        </h2>
+      </SectionReveal>
+    );
+  }
+
   return (
     <SectionReveal className="section-rule py-12 text-center" aria-labelledby="rsvp-title">
       <MessageCircleHeart className="mx-auto size-8 text-gold" strokeWidth={1} aria-hidden="true" />
       <p className="section-kicker mt-4">Confirma tu asistencia</p>
-      <h2 id="rsvp-title" className="mt-3 font-display text-2xl text-cream">Nos encantará contar con vos</h2>
-      <Button variant="wedding" size="wedding" asChild={Boolean(url)} disabled={!url} className="mt-7">
-        {url ? <a href={url} target="_blank" rel="noreferrer">Enviar mensaje</a> : <span>Enviar mensaje</span>}
-      </Button>
+      <h2 id="rsvp-title" className="mt-3 font-display text-2xl text-cream">
+        Nos encantará contar con vos
+      </h2>
+
+      <div className="mx-auto mt-7 flex max-w-xs flex-col gap-4">
+        <Select value={invitadoId} onValueChange={setInvitadoId}>
+          <SelectTrigger className="border-gold/40 text-cream">
+            <SelectValue placeholder="Elegí tu nombre" />
+          </SelectTrigger>
+          <SelectContent>
+            {invitados.map((inv) => (
+              <SelectItem key={inv.id} value={String(inv.id)}>
+                {inv.nombre}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <ToggleGroup
+          type="single"
+          value={confirmado}
+          onValueChange={(v) => v && setConfirmado(v as "si" | "no")}
+          className="justify-center gap-2"
+        >
+          <ToggleGroupItem value="si" className="border border-gold/40 px-4 text-cream data-[state=on]:bg-gold/20 data-[state=on]:border-gold">
+            Sí, voy
+          </ToggleGroupItem>
+          <ToggleGroupItem value="no" className="border border-gold/40 px-4 text-cream data-[state=on]:bg-gold/20 data-[state=on]:border-gold">
+            No puedo ir
+          </ToggleGroupItem>
+        </ToggleGroup>
+
+        <Textarea
+          placeholder="Dejá un mensaje (opcional)"
+          value={mensaje}
+          onChange={(e) => setMensaje(e.target.value)}
+          className="border-gold/40 text-cream placeholder:text-cream/50"
+          rows={2}
+        />
+
+        <Button
+          variant="wedding"
+          size="wedding"
+          disabled={!puedeEnviar}
+          onClick={handleEnviar}
+        >
+          {estado === "enviando" ? "Enviando..." : "Enviar"}
+        </Button>
+
+        {estado === "error" && (
+          <p className="text-sm text-red-300">Algo falló. Probá de nuevo en un momento.</p>
+        )}
+      </div>
     </SectionReveal>
   );
 }
