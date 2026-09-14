@@ -4,7 +4,7 @@ import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { weddingConfig } from "@/config/wedding";
 import { isGroupGuest } from "@/lib/guest-name";
-import { BigInterlockedRings, BotanicalMark } from "./ornaments";
+import { BotanicalMark } from "./ornaments";
 
 export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
   const [name, setName] = useState("");
