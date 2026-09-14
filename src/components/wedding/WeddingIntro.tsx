@@ -17,14 +17,14 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
 
   return (
     <motion.section
-      className="relative flex min-h-svh items-center justify-center overflow-hidden bg-forest px-6 py-12 text-center text-cream"
+      className="relative flex min-h-svh items-center justify-center overflow-y-auto overflow-x-hidden bg-forest px-6 py-12 text-center text-cream"
       exit={{ opacity: 0, scale: 1.02 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="botanical-corner botanical-corner-left" aria-hidden="true" />
       <div className="botanical-corner botanical-corner-right" aria-hidden="true" />
       <motion.div
-        className="relative z-10 mx-auto w-full max-w-xl"
+        className="relative z-10 mx-auto w-full max-w-xl py-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
