@@ -1,56 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MessageCircleHeart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { SectionReveal } from "./SectionReveal";
 
-// En desarrollo: si no configurás VITE_API_URL en tu .env del frontend,
-// usa localhost con el puerto de tu backend/.env (ajustalo si no es 3000).
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5000/api";
 
-type Invitado = { id: number; nombre: string; grupo_familiar?: string };
-
 export function RSVP() {
-  const [invitados, setInvitados] = useState<Invitado[]>([]);
-  const [invitadoId, setInvitadoId] = useState<string>("");
+  const [nombre, setNombre] = useState("");
   const [confirmado, setConfirmado] = useState<"si" | "no" | "">("");
   const [mensaje, setMensaje] = useState("");
   const [estado, setEstado] = useState<"idle" | "enviando" | "enviado" | "error">("idle");
 
- useEffect(() => {
-  async function cargarInvitados() {
-    try {
-      const res = await fetch(`${API_URL}/invitados/nombres`);
-
-      if (!res.ok) {
-        throw new Error("No se pudo cargar la lista de invitados");
-      }
-
-      const data = await res.json();
-
-      if (!Array.isArray(data)) {
-        throw new Error("Respuesta inválida del servidor");
-      }
-
-      setInvitados(data);
-    } catch (error) {
-      console.error("Error al cargar invitados:", error);
-      setEstado("error");
-    }
-  }
-
-  cargarInvitados();
-}, []);
-
-  const puedeEnviar = invitadoId !== "" && confirmado !== "" && estado !== "enviando";
+  const puedeEnviar = nombre.trim() !== "" && confirmado !== "" && estado !== "enviando";
 
   async function handleEnviar() {
     setEstado("enviando");
@@ -59,7 +23,7 @@ export function RSVP() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: Number(invitadoId),
+          nombre: nombre.trim(),
           confirmado: confirmado === "si",
           mensaje,
         }),
@@ -92,18 +56,12 @@ export function RSVP() {
       </h2>
 
       <div className="mx-auto mt-7 flex max-w-xs flex-col gap-4">
-        <Select value={invitadoId} onValueChange={setInvitadoId}>
-          <SelectTrigger className="border-gold/40 text-cream">
-            <SelectValue placeholder="Elegí tu nombre" />
-          </SelectTrigger>
-          <SelectContent>
-            {invitados.map((inv) => (
-              <SelectItem key={inv.id} value={String(inv.id)}>
-                {inv.nombre}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Input
+          placeholder="Escribí tu nombre y apellido"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          className="border-gold/40 text-cream placeholder:text-cream/50"
+        />
 
         <ToggleGroup
           type="single"
