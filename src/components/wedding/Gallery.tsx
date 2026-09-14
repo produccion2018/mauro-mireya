@@ -10,6 +10,20 @@ const photos = [
   { src: weddingConfig.images.couple02, fallback: "https://placehold.co/1200x800/2C3B2D/D4AF37?text=Couple+02", alt: "Espacio reservado para una fotografía de la pareja", rotate: -3 },
 ];
 
+function LeafSprig({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 60 60" className={className} aria-hidden="true">
+      <path d="M30 4 C22 16 22 28 30 40" fill="none" stroke="var(--gold)" strokeWidth="1" opacity="0.8" />
+      <path d="M30 12 C22 14 16 12 12 6 C18 8 24 12 30 12Z" fill="var(--gold)" opacity="0.55" />
+      <path d="M30 22 C38 22 44 18 48 12 C44 20 38 24 30 24Z" fill="var(--gold)" opacity="0.7" />
+      <path d="M30 32 C22 32 16 28 12 22 C18 26 24 30 30 30Z" fill="var(--gold)" opacity="0.55" />
+      <path d="M30 40 C36 42 40 46 42 52 C36 50 32 46 30 40Z" fill="var(--gold-soft)" opacity="0.8" />
+      <circle cx="43" cy="10" r="2" fill="var(--gold-soft)" opacity="0.9" />
+      <circle cx="49" cy="15" r="1.4" fill="var(--gold-soft)" opacity="0.7" />
+    </svg>
+  );
+}
+
 export function Gallery() {
   return (
     <SectionReveal className="section-rule py-11" aria-labelledby="galeria-title">
@@ -17,7 +31,22 @@ export function Gallery() {
       <p className="section-kicker mt-4 text-center">Galería</p>
       <h2 id="galeria-title" className="sr-only">Galería de fotos</h2>
 
-      <div className="relative mt-10 pt-4">
+      <div className="relative mt-10 overflow-hidden pb-2 pt-4">
+        <motion.div
+          className="pointer-events-none absolute -left-4 -top-2 size-16 sm:size-20"
+          animate={{ rotate: [0, 4, 0], scale: [1, 1.04, 1] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <LeafSprig className="h-full w-full -scale-x-100" />
+        </motion.div>
+        <motion.div
+          className="pointer-events-none absolute -right-4 bottom-0 size-16 sm:size-20"
+          animate={{ rotate: [0, -4, 0], scale: [1, 1.04, 1] }}
+          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+        >
+          <LeafSprig className="h-full w-full" />
+        </motion.div>
+
         {/* piolita */}
         <div className="absolute left-0 right-0 top-4 h-px bg-gold/50" aria-hidden="true" />
 
