@@ -34,8 +34,10 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
   return (
     <motion.section
       className="relative flex min-h-svh items-center justify-center overflow-y-auto overflow-x-hidden bg-forest px-6 py-8 text-center text-cream"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.02 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduceMotion ? 0 : 1.15, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="botanical-corner botanical-corner-left" aria-hidden="true" />
       <div className="botanical-corner botanical-corner-right" aria-hidden="true" />
