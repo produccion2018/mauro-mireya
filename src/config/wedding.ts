@@ -9,7 +9,7 @@ export const weddingConfig = {
   googleMapsUrl: "",
   whatsappNumber: "",
   dressCode: "Formal elegante",
-  weddingMessage: "Queremos compartir este día tan especial con usted.",
+  weddingMessage: "Queremos compartir este día tan especial con vos.",
 
   musicFile: "/music/coro_desde_1m20s.mp3",
   songTitle: "",
