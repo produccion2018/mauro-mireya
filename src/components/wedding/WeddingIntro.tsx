@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { weddingConfig } from "@/config/wedding";
+import { isGroupGuest } from "@/lib/guest-name";
 import { BotanicalMark, InterlockedRings } from "./ornaments";
 
 export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
@@ -29,7 +30,7 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
         transition={{ duration: 1 }}
       >
         <InterlockedRings />
-        <p className="mt-7 text-[0.62rem] uppercase tracking-[0.46em] text-cream/65">Tenemos el honor de invitarte</p>
+        <p className="mt-7 text-[0.62rem] uppercase tracking-[0.46em] text-cream/65">Tenemos el honor de invitarle</p>
         <motion.div
           className="monogram-seal mx-auto my-8 flex size-40 items-center justify-center rounded-full"
           animate={{ boxShadow: ["0 0 0 0 transparent", "0 0 45px 2px var(--gold-glow)", "0 0 0 0 transparent"] }}
@@ -55,14 +56,14 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
               exit={{ opacity: 0 }}
             >
               <label htmlFor="guest-name" className="text-[0.6rem] uppercase tracking-[0.3em] text-cream/65">
-                Ingresá tu nombre
+                Ingrese su nombre
               </label>
               <input
                 id="guest-name"
                 type="text"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                placeholder="Tu nombre"
+                placeholder="Su nombre"
                 required
                 className="w-full border-b border-gold/50 bg-transparent px-2 py-2 text-center font-display text-lg text-cream placeholder:text-cream/40 focus:border-gold focus:outline-none"
               />
@@ -79,7 +80,9 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
               className="mt-10"
             >
               <p className="font-display text-xl italic text-cream/90">¡Gracias, {name}!</p>
-              <p className="mt-1 text-[0.62rem] uppercase tracking-[0.4em] text-cream/60">Nos alegra que nos acompañes</p>
+              <p className="mt-1 text-[0.62rem] uppercase tracking-[0.4em] text-cream/60">
+                Nos alegra que nos acompañe{isGroupGuest(name) ? "n" : ""}
+              </p>
               <Button variant="wedding" size="wedding" onClick={() => onOpen(name)} className="mt-8">
                 <Sparkles aria-hidden="true" /> Abrir invitación
               </Button>
