@@ -17,6 +17,7 @@ export function RSVP() {
   const puedeEnviar = nombre.trim() !== "" && confirmado !== "" && estado !== "enviando";
 
   async function handleEnviar() {
+    if (!puedeEnviar) return;
     setEstado("enviando");
     try {
       const res = await fetch(`${API_URL}/rsvp`, {
@@ -69,10 +70,18 @@ export function RSVP() {
           onValueChange={(v) => v && setConfirmado(v as "si" | "no")}
           className="justify-center gap-2"
         >
-          <ToggleGroupItem value="si" className="border border-gold/40 px-4 text-cream data-[state=on]:bg-gold/20 data-[state=on]:border-gold">
+          <ToggleGroupItem
+            type="button"
+            value="si"
+            className="border border-gold/40 px-4 text-cream data-[state=on]:bg-gold/20 data-[state=on]:border-gold"
+          >
             Sí, voy
           </ToggleGroupItem>
-          <ToggleGroupItem value="no" className="border border-gold/40 px-4 text-cream data-[state=on]:bg-gold/20 data-[state=on]:border-gold">
+          <ToggleGroupItem
+            type="button"
+            value="no"
+            className="border border-gold/40 px-4 text-cream data-[state=on]:bg-gold/20 data-[state=on]:border-gold"
+          >
             No puedo ir
           </ToggleGroupItem>
         </ToggleGroup>
@@ -86,6 +95,7 @@ export function RSVP() {
         />
 
         <Button
+          type="button"
           variant="wedding"
           size="wedding"
           disabled={!puedeEnviar}
