@@ -6,11 +6,11 @@ export function isGroupGuest(name: string): boolean {
   return false;
 }
 
-export function guestPronoun(name: string): "usted" | "ustedes" {
-  return isGroupGuest(name) ? "ustedes" : "usted";
+export function guestPreposition(name: string): "contigo" | "con ustedes" {
+  return isGroupGuest(name) ? "con ustedes" : "contigo";
 }
 
 export function shareMessage(name?: string): string {
-  if (!name) return "Queremos compartir este día tan especial con usted.";
-  return `Queremos compartir este día tan especial con ${guestPronoun(name)}.`;
+  if (!name) return "Queremos compartir este día tan especial contigo.";
+  return `Queremos compartir este día tan especial ${guestPreposition(name)}.`;
 }

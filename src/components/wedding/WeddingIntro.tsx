@@ -31,7 +31,7 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
         transition={{ duration: 1 }}
       >
         <InterlockedRings />
-        <p className="mt-7 text-[0.62rem] uppercase tracking-[0.46em] text-cream/65">Tenemos el honor de invitarle</p>
+        <p className="mt-7 text-[0.62rem] uppercase tracking-[0.46em] text-cream/65">Tenemos el honor de invitarte</p>
         <motion.div
           className="monogram-seal mx-auto my-8 flex size-40 items-center justify-center rounded-full"
           animate={{ boxShadow: ["0 0 0 0 transparent", "0 0 45px 2px var(--gold-glow)", "0 0 0 0 transparent"] }}
@@ -57,14 +57,14 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
               exit={{ opacity: 0 }}
             >
               <label htmlFor="guest-name" className="text-[0.6rem] uppercase tracking-[0.3em] text-cream/65">
-                Ingrese su nombre
+                Ingresa tu nombre
               </label>
               <input
                 id="guest-name"
                 type="text"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                placeholder="Su nombre"
+                placeholder="Tu nombre"
                 required
                 className="w-full border-b border-gold/50 bg-transparent px-2 py-2 text-center font-display text-lg text-cream placeholder:text-cream/40 focus:border-gold focus:outline-none"
               />
@@ -84,7 +84,7 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
               <p className="mx-auto mt-4 max-w-sm font-display text-sm italic leading-7 text-cream/70">
                 {isGroup
                   ? "Contar con ustedes en este día tan especial es un regalo que llevaremos siempre en el corazón. Gracias por ser parte de nuestra historia y por acompañarnos a celebrar el comienzo de esta nueva etapa."
-                  : "Contar con usted en este día tan especial es un regalo que llevaremos siempre en el corazón. Gracias por ser parte de nuestra historia y por acompañarnos a celebrar el comienzo de esta nueva etapa."}
+                  : "Contar contigo en este día tan especial es un regalo que llevaremos siempre en el corazón. Gracias por ser parte de nuestra historia y por acompañarnos a celebrar el comienzo de esta nueva etapa."}
               </p>
               <Button variant="wedding" size="wedding" onClick={() => onOpen(name)} className="mt-8">
                 <Sparkles aria-hidden="true" /> Abrir invitación
