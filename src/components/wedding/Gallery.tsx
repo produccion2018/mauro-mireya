@@ -5,9 +5,9 @@ import { ImageWithFallback } from "./image-with-fallback";
 import { SectionReveal } from "./SectionReveal";
 
 const photos = [
-  { src: weddingConfig.images.mauro, fallback: "https://placehold.co/800x1000/2C3B2D/D4AF37?text=Mauro", alt: "Espacio reservado para una fotografía de Mauro", rotate: -6 },
-  { src: weddingConfig.images.mireya, fallback: "https://placehold.co/800x1000/2C3B2D/D4AF37?text=Mireya", alt: "Espacio reservado para una fotografía de Mireya", rotate: 4 },
-  { src: weddingConfig.images.couple02, fallback: "https://placehold.co/1200x800/2C3B2D/D4AF37?text=Couple+02", alt: "Espacio reservado para una fotografía de la pareja", rotate: -3 },
+  { src: weddingConfig.images.mauro, alt: "Fotografía de Mauro", rotate: -6, wide: false },
+  { src: weddingConfig.images.mireya, alt: "Fotografía de Mireya", rotate: 4, wide: false },
+  { src: weddingConfig.images.couple02, alt: "Fotografía de la pareja", rotate: -3, wide: true },
 ];
 
 function LeafSprig({ className }: { className?: string }) {
@@ -50,15 +50,24 @@ export function Gallery() {
         {/* piolita */}
         <div className="absolute left-0 right-0 top-4 h-px bg-gold/50" aria-hidden="true" />
 
-        <div className="flex flex-wrap justify-center gap-x-5 gap-y-8 px-2">
+        <div className="flex flex-wrap justify-center gap-x-8 gap-y-10 px-2">
           {photos.map((photo, index) => (
             <motion.div
               key={photo.src}
               className="relative"
               style={{ transformOrigin: "top center" }}
-              initial={{ rotate: photo.rotate }}
-              animate={{ rotate: [photo.rotate - 2, photo.rotate + 2, photo.rotate - 2] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: index * 0.4 }}
+              initial={{ rotate: photo.rotate, opacity: 0, y: 14 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                rotate: [photo.rotate - 2, photo.rotate + 2, photo.rotate - 2],
+              }}
+              transition={{
+                opacity: { duration: 0.5, delay: index * 0.15 },
+                y: { duration: 0.5, delay: index * 0.15 },
+                rotate: { duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: index * 0.4 },
+              }}
+              whileHover={{ scale: 1.06, rotate: 0, zIndex: 2 }}
             >
               {/* pinza */}
               <div
@@ -66,11 +75,16 @@ export function Gallery() {
                 aria-hidden="true"
               />
               {/* marco polaroid */}
-              <div className="w-36 border border-gold/25 bg-cream p-2 pb-4 shadow-luxury sm:w-40">
+              <div
+                className={`border border-gold/25 bg-cream p-2 pb-4 shadow-luxury ${
+                  photo.wide ? "w-52 sm:w-56" : "w-40 sm:w-44"
+                }`}
+              >
                 <ImageWithFallback
-                  {...photo}
+                  src={photo.src}
+                  alt={photo.alt}
                   loading="lazy"
-                  className="aspect-[4/5] w-full object-cover"
+                  className={`w-full object-cover ${photo.wide ? "aspect-[6/5]" : "aspect-[4/5]"}`}
                 />
               </div>
             </motion.div>
