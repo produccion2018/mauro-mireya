@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { turso } from "../db.js";
+import db from "../db.js";
 
 const router = Router();
 
@@ -8,7 +8,7 @@ const router = Router();
 // Liviano: no manda datos sensibles ni de confirmación.
 router.get("/invitados/nombres", async (req, res) => {
   try {
-    const result = await turso.execute(
+    const result = await db.execute(
       "SELECT id, nombre, grupo_familiar FROM invitados ORDER BY nombre ASC",
     );
     res.json(result.rows);
@@ -22,7 +22,7 @@ router.get("/invitados/nombres", async (req, res) => {
 // Lista completa (para vos, panel de control interno).
 router.get("/invitados", async (req, res) => {
   try {
-    const result = await turso.execute("SELECT * FROM invitados ORDER BY nombre ASC");
+    const result = await db.execute("SELECT * FROM invitados ORDER BY nombre ASC");
     res.json(result.rows);
   } catch (error) {
     console.error("Error al listar invitados:", error);
@@ -40,7 +40,7 @@ router.post("/rsvp", async (req, res) => {
   }
 
   try {
-    const result = await turso.execute({
+    const result = await db.execute({
       sql: `UPDATE invitados
             SET confirmado = ?, mensaje = ?, fecha_respuesta = CURRENT_TIMESTAMP
             WHERE id = ?`,
