@@ -9,6 +9,7 @@ import { BotanicalMark, InterlockedRings } from "./ornaments";
 export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const isGroup = isGroupGuest(name);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -80,8 +81,10 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
               className="mt-10"
             >
               <p className="font-display text-xl italic text-cream/90">¡Gracias, {name}!</p>
-              <p className="mt-1 text-[0.62rem] uppercase tracking-[0.4em] text-cream/60">
-                Nos alegra que nos acompañe{isGroupGuest(name) ? "n" : ""}
+              <p className="mx-auto mt-4 max-w-sm font-display text-sm italic leading-7 text-cream/70">
+                {isGroup
+                  ? "Contar con ustedes en este día tan especial es un regalo que llevaremos siempre en el corazón. Gracias por ser parte de nuestra historia y por acompañarnos a celebrar el comienzo de esta nueva etapa."
+                  : "Contar con usted en este día tan especial es un regalo que llevaremos siempre en el corazón. Gracias por ser parte de nuestra historia y por acompañarnos a celebrar el comienzo de esta nueva etapa."}
               </p>
               <Button variant="wedding" size="wedding" onClick={() => onOpen(name)} className="mt-8">
                 <Sparkles aria-hidden="true" /> Abrir invitación
