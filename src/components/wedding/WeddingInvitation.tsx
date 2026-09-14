@@ -1,22 +1,167 @@
-import { Heart } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowUp, Pause, Play, RotateCcw, Volume2, VolumeX } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { weddingConfig } from "@/config/wedding";
 import { shareMessage } from "@/lib/guest-name";
-import { BotanicalMark } from "./ornaments";
+import { DressCode } from "./DressCode";
+import { Footer } from "./Footer";
+import { Gallery } from "./Gallery";
+import { Hero } from "./Hero";
+import { Location } from "./Location";
+import { MusicPlayer } from "./MusicPlayer";
+import { OurStory } from "./OurStory";
+import { RSVP } from "./RSVP";
+import { WeddingDate } from "./WeddingDate";
+import { WeddingIntro } from "./WeddingIntro";
 
-export function Footer({ guestName }: { guestName?: string }) {
+export function WeddingInvitation() {
+  const [opened, setOpened] = useState(false);
+  const [guestName, setGuestName] = useState("");
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const play = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    try {
+      await audio.play();
+      setPlaying(true);
+    } catch {
+      setPlaying(false);
+    }
+  };
+
+  const toggle = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) void play();
+    else {
+      audio.pause();
+      setPlaying(false);
+    }
+  };
+
+  const openInvitation = (name: string) => {
+    setGuestName(name);
+    setOpened(true);
+    window.setTimeout(() => void play(), 80);
+  };
+
+  const seek = (value: number) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = value;
+    setCurrentTime(value);
+  };
+
+  const restartInvitation = () => {
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    document.body.style.overflow = opened ? "" : "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, [opened]);
+
   return (
-    <footer className="section-rule px-5 py-14 text-center">
-      <p className="section-kicker">Gracias{guestName ? `, ${guestName}` : ""}</p>
-      <p className="mx-auto mt-5 max-w-md font-display text-xl italic leading-8 text-cream/80">
-        {shareMessage(guestName)}
-      </p>
-      {guestName && (
-        <p className="mx-auto mt-4 max-w-md font-display text-base italic leading-7 text-gold">
-          Que la bendición de Dios acompañe siempre a {guestName}.
-        </p>
+    <main className="min-h-svh bg-forest">
+      <audio
+        ref={audioRef}
+        src={weddingConfig.musicFile}
+        preload="metadata"
+        muted={muted}
+        loop
+        onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+        onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
+      />
+      <AnimatePresence mode="wait">
+        {!opened ? (
+          <WeddingIntro key="intro" onOpen={openInvitation} />
+        ) : (
+          <motion.div key="invitation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9 }}>
+            <div className="wedding-shell">
+              <div className="wedding-main">
+                <Hero guestName={guestName} />
+                <div className="px-5 sm:px-10">
+                  <WeddingDate />
+                  <Location />
+                  <footer className="section-rule py-12 text-center lg:block hidden">
+                    <p className="section-kicker">Gracias{guestName ? `, ${guestName}` : ""}</p>
+                    <p className="mx-auto mt-4 max-w-md font-display text-xl italic leading-8 text-cream/75">
+                      {shareMessage(guestName)}
+                    </p>
+                    {guestName && (
+                      <p className="mx-auto mt-3 max-w-md font-display text-base italic leading-7 text-gold">
+                        Que la bendición de Dios acompañe siempre a {guestName}.
+                      </p>
+                    )}
+                  </footer>
+                </div>
+              </div>
+              <aside className="wedding-aside px-5 sm:px-10 lg:px-8">
+                <OurStory />
+                <DressCode />
+                <Gallery />
+                <MusicPlayer playing={playing} currentTime={currentTime} duration={duration} onToggle={toggle} onSeek={seek} />
+                <RSVP />
+              </aside>
+              <div className="lg:col-span-2 lg:hidden"><Footer guestName={guestName} /></div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {opened && (
+        <motion.div
+          className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="flex items-center gap-1 rounded-full border border-gold/40 bg-forest/95 p-1.5 shadow-luxury backdrop-blur">
+            <Button
+              variant="weddingIcon"
+              size="icon"
+              className="rounded-full"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              aria-label="Volver al inicio"
+            >
+              <ArrowUp />
+            </Button>
+            <Button
+              variant="weddingIcon"
+              size="icon"
+              className="rounded-full"
+              onClick={restartInvitation}
+              aria-label="Volver a la invitación de portada"
+            >
+              <RotateCcw />
+            </Button>
+            <div className="mx-1 h-6 w-px bg-gold/30" aria-hidden="true" />
+            <Button
+              variant="weddingIcon"
+              size="icon"
+              className="rounded-full"
+              onClick={toggle}
+              aria-label={playing ? "Pausar canción" : "Reproducir canción"}
+            >
+              {playing ? <Pause /> : <Play />}
+            </Button>
+            <Button
+              variant="weddingIcon"
+              size="icon"
+              className="rounded-full"
+              onClick={() => setMuted((value) => !value)}
+              aria-label={muted ? "Activar sonido" : "Silenciar canción"}
+            >
+              {muted ? <VolumeX /> : <Volume2 />}
+            </Button>
+          </div>
+        </motion.div>
       )}
-      <BotanicalMark />
-      <p className="mt-8 font-script text-5xl text-gold">M&M</p>
-      <Heart className="mx-auto mt-5 size-4 text-gold" strokeWidth={1} aria-hidden="true" />
-    </footer>
+    </main>
   );
 }
