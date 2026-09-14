@@ -84,7 +84,9 @@ export function Gallery() {
                   src={photo.src}
                   alt={photo.alt}
                   loading="lazy"
-                  className={`w-full object-cover ${photo.wide ? "aspect-[6/5]" : "aspect-[4/5]"}`}
+                  className={`w-full object-cover opacity-90 transition-opacity duration-300 hover:opacity-100 ${
+                    photo.wide ? "aspect-[6/5]" : "aspect-[4/5]"
+                  }`}
                 />
               </div>
             </motion.div>
