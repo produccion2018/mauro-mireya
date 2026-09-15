@@ -21,7 +21,7 @@ export function Hero({ guestName }: { guestName?: string }) {
           src={weddingConfig.images.hero}
           fallback={heroFallback}
           alt="Fotografía principal de Mauro y Mireya"
-          className="h-full w-full rounded-lg object-cover opacity-40"
+          className="h-full w-full rounded-lg object-cover object-top opacity-70"
           fetchPriority="high"
         />
       </motion.div>
