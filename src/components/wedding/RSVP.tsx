@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircleHeart } from "lucide-react";
+import { MessageCircleHeart, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -45,11 +45,20 @@ export function RSVP() {
   if (estado === "enviado") {
     return (
       <SectionReveal className="section-rule py-12 text-center" aria-labelledby="rsvp-title">
-        <MessageCircleHeart className="mx-auto size-8 text-gold" strokeWidth={1} aria-hidden="true" />
+        {confirmado === "si" ? (
+          <PartyPopper className="mx-auto size-8 text-gold" strokeWidth={1} aria-hidden="true" />
+        ) : (
+          <MessageCircleHeart className="mx-auto size-8 text-gold" strokeWidth={1} aria-hidden="true" />
+        )}
         <p className="section-kicker mt-4">Confirma tu asistencia</p>
         <h2 id="rsvp-title" className="mt-3 font-display text-2xl text-cream">
           {confirmado === "si" ? "¡Gracias, te esperamos!" : "Gracias por avisarnos"}
         </h2>
+        <p className="mx-auto mt-3 max-w-sm font-display text-sm italic leading-7 text-cream/70">
+          {confirmado === "si"
+            ? "Nos hace muy felices saber que vas a estar con nosotros en este día tan especial. ¡Nos vemos pronto!"
+            : "Lamentamos que no puedas acompañarnos, pero entendemos y te lo agradecemos de corazón por avisarnos. Vas a estar presente en nuestros pensamientos."}
+        </p>
       </SectionReveal>
     );
   }
