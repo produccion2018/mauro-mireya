@@ -8,6 +8,12 @@ import { SectionReveal } from "./SectionReveal";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5000/api";
 
+function blurActiveElement() {
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+}
+
 export function RSVP() {
   const [nombre, setNombre] = useState("");
   const [confirmado, setConfirmado] = useState<"si" | "no" | "">("");
@@ -99,6 +105,7 @@ export function RSVP() {
           variant="wedding"
           size="wedding"
           disabled={!puedeEnviar}
+          onPointerDown={blurActiveElement}
           onClick={handleEnviar}
         >
           {estado === "enviando" ? "Enviando..." : "Enviar"}

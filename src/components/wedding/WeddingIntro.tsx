@@ -11,6 +11,12 @@ const itemVariants = {
   show: { opacity: 1, y: 0 },
 };
 
+function blurActiveElement() {
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+}
+
 export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -108,7 +114,13 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
                 required
                 className="w-full border-b border-gold/50 bg-transparent px-2 py-2 text-center font-display text-lg text-cream placeholder:text-cream/40 focus:border-gold focus:outline-none"
               />
-              <Button type="submit" variant="wedding" size="wedding" className="mt-2">
+              <Button
+                type="submit"
+                variant="wedding"
+                size="wedding"
+                className="mt-2"
+                onPointerDown={blurActiveElement}
+              >
                 Continuar
               </Button>
             </motion.form>
@@ -126,7 +138,14 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
                   ? "Contar con ustedes en este día tan especial es un regalo que llevaremos siempre en el corazón. Gracias por ser parte de nuestra historia y por acompañarnos a celebrar el comienzo de esta nueva etapa."
                   : "Contar contigo en este día tan especial es un regalo que llevaremos siempre en el corazón. Gracias por ser parte de nuestra historia y por acompañarnos a celebrar el comienzo de esta nueva etapa."}
               </p>
-              <Button type="button" variant="wedding" size="wedding" onClick={() => onOpen(name)} className="mt-6">
+              <Button
+                type="button"
+                variant="wedding"
+                size="wedding"
+                onPointerDown={blurActiveElement}
+                onClick={() => onOpen(name)}
+                className="mt-6"
+              >
                 <Sparkles aria-hidden="true" /> Abrir invitación
               </Button>
             </motion.div>
