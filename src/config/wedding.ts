@@ -4,9 +4,9 @@ export const weddingConfig = {
   weddingDate: "2026-12-26",
   weddingTime: "",
   ceremonyLocation: "",
-  receptionLocation: "Colina Campestre",
-  address: "Colina Campestre, Bogotá, Colombia",
-  googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Colina+Campestre+Bogota+Colombia",
+  receptionLocation: "Santa Helena de Baviera 3 - Salón Social 1er piso",
+  address: "Calle 146a #54c-86, Santa Helena de Baviera 3, Salón Social 1er piso, Bogotá, Colombia",
+  googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Calle+146a+%2354c-86+Bogota+Colombia",
   whatsappNumber: "",
   dressCode: "Formal elegante",
   weddingMessage: "Queremos compartir este día tan especial contigo.",
@@ -32,5 +32,5 @@ export const weddingConfig = {
     couple02: "/images/couple-02.jpg",
     // TODO: reemplazar por foto real en /public/images/hero-bg.jpg.
     hero: "/images/hero-bg.jpg",
-  },
+  }
 } as const;
