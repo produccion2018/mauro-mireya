@@ -4,7 +4,7 @@ import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { weddingConfig } from "@/config/wedding";
 import { isGroupGuest } from "@/lib/guest-name";
-import { BigInterlockedRings, BotanicalMark } from "./ornaments";
+import { BigInterlockedRings, Flourish, FrameCorners } from "./ornaments";
 
 const itemVariants = {
   hidden: { opacity: 0, y: 14 },
@@ -39,7 +39,7 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
 
   return (
     <motion.section
-      className="relative flex min-h-svh items-center justify-center overflow-y-auto overflow-x-hidden bg-forest px-6 py-8 text-center text-cream"
+      className="premium-surface relative flex min-h-svh items-center justify-center overflow-y-auto overflow-x-hidden px-6 py-10 text-center text-cream"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.02 }}
@@ -49,46 +49,49 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
       <div className="botanical-corner botanical-corner-right" aria-hidden="true" />
 
       <motion.div
-        className="relative z-10 mx-auto w-full max-w-xl py-4"
+        className="gilded-frame relative z-10 mx-auto w-full max-w-md px-6 py-10 sm:px-10"
         variants={containerVariants}
         initial="hidden"
         animate="show"
       >
+        <FrameCorners />
         <motion.p
           variants={itemVariants}
           transition={{ duration: 0.7 }}
-          className="text-[0.6rem] uppercase tracking-[0.44em] text-cream/65"
+          className="text-[0.6rem] uppercase tracking-[0.44em] text-cream/70"
         >
           Tenemos el honor de invitarte
         </motion.p>
 
-        <motion.div variants={itemVariants} transition={{ duration: 0.7 }}>
+        <motion.div variants={itemVariants} transition={{ duration: 0.7 }} className="mt-6">
           <BigInterlockedRings />
-        </motion.div>
-
-        <motion.div variants={itemVariants} transition={{ duration: 0.7 }}>
-          <BotanicalMark />
         </motion.div>
 
         <motion.h1
           variants={itemVariants}
           transition={{ duration: 0.7 }}
-          className="mt-5 font-display text-2xl uppercase leading-tight tracking-[0.12em] sm:text-3xl"
+          className="mt-6 font-display text-3xl uppercase leading-tight tracking-[0.16em] sm:text-4xl"
         >
           {weddingConfig.groomName}{" "}
-          <span className="block py-1 font-script text-2xl normal-case tracking-normal text-gold">
+          <span className="block py-1 font-script text-4xl normal-case tracking-normal text-gold">
             &
           </span>{" "}
           {weddingConfig.brideName}
         </motion.h1>
 
-        <motion.p
+        <motion.div
           variants={itemVariants}
           transition={{ duration: 0.7 }}
-          className="mt-3 font-display text-xs uppercase tracking-[0.44em] text-cream/75"
+          className="mt-2"
         >
-          Nuestra boda
-        </motion.p>
+          <Flourish />
+          <span className="mt-3 block font-display text-sm tracking-[0.42em] text-gold">
+            {weddingConfig.weddingDate.split("-").reverse().join(" · ")}
+          </span>
+          <span className="mt-1 block text-[0.58rem] uppercase tracking-[0.4em] text-cream/60">
+            {weddingConfig.weddingTime}
+          </span>
+        </motion.div>
 
         <AnimatePresence mode="wait">
           {!submitted ? (
@@ -102,7 +105,7 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
               transition={{ duration: 0.7, delay: reduceMotion ? 0 : 1.6 }}
               className="mx-auto mt-6 flex max-w-xs flex-col items-center gap-3"
             >
-              <label htmlFor="guest-name" className="text-[0.6rem] uppercase tracking-[0.3em] text-cream/65">
+              <label htmlFor="guest-name" className="text-[0.6rem] uppercase tracking-[0.3em] text-cream/70">
                 Ingresa tu nombre
               </label>
               <input
@@ -112,13 +115,13 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
                 onChange={(event) => setName(event.target.value)}
                 placeholder="Tu nombre"
                 required
-                className="w-full border-b border-gold/50 bg-transparent px-2 py-2 text-center font-display text-lg text-cream placeholder:text-cream/40 focus:border-gold focus:outline-none"
+                className="w-full border-b border-gold/50 bg-transparent px-2 py-2 text-center font-elegant text-xl italic text-cream placeholder:text-cream/40 transition-colors focus:border-gold focus:outline-none"
               />
               <Button
                 type="submit"
                 variant="wedding"
                 size="wedding"
-                className="mt-2"
+                className="shine mt-3"
                 onPointerDown={blurActiveElement}
               >
                 Continuar
@@ -132,8 +135,8 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
               exit={{ opacity: 0 }}
               className="mt-6"
             >
-              <p className="font-display text-xl italic text-cream/90">¡Gracias, {name}!</p>
-              <p className="mx-auto mt-3 max-w-sm font-display text-sm italic leading-7 text-cream/70">
+              <p className="font-elegant text-2xl italic text-gold-soft">¡Gracias, {name}!</p>
+              <p className="mx-auto mt-3 max-w-sm font-elegant text-base italic leading-7 text-cream/80">
                 {isGroup
                   ? "Contar con ustedes en este día tan especial es un regalo que llevaremos siempre en el corazón. Gracias por ser parte de nuestra historia y por acompañarnos a celebrar el comienzo de esta nueva etapa."
                   : "Contar contigo en este día tan especial es un regalo que llevaremos siempre en el corazón. Gracias por ser parte de nuestra historia y por acompañarnos a celebrar el comienzo de esta nueva etapa."}
@@ -144,7 +147,7 @@ export function WeddingIntro({ onOpen }: { onOpen: (name: string) => void }) {
                 size="wedding"
                 onPointerDown={blurActiveElement}
                 onClick={() => onOpen(name)}
-                className="mt-6"
+                className="shine mt-6"
               >
                 <Sparkles aria-hidden="true" /> Abrir invitación
               </Button>

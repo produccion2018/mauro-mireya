@@ -34,7 +34,7 @@ export function MusicPlayer({ playing, currentTime, duration, onToggle, onSeek }
       <p className="section-kicker mt-4">Nuestra canción</p>
       <h2 id="musica-title" className="mt-3 min-h-7 font-display text-xl text-cream">{weddingConfig.songTitle || "—"}</h2>
       <p className="mt-1 min-h-5 text-xs uppercase tracking-[0.18em] text-cream/50">{weddingConfig.songArtist || "—"}</p>
-      <div className="mx-auto mt-7 flex max-w-sm items-center gap-4">
+      <div className="glass-card mx-auto mt-7 flex max-w-sm items-center gap-4 rounded-full py-3 pl-3 pr-6">
         <Button
           variant="weddingIcon"
           size="icon"

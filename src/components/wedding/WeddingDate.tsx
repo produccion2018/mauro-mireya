@@ -1,32 +1,57 @@
-import { CalendarDays } from "lucide-react";
 import { weddingConfig } from "@/config/wedding";
 import { Countdown } from "./Countdown";
-import { FineDivider } from "./ornaments";
+import { Flourish } from "./ornaments";
+import { SectionReveal } from "./SectionReveal";
 
-function displayDate(date: string) {
-  if (!date) return "Fecha por confirmar";
+function dateParts(date: string) {
   const parsed = new Date(`${date}T12:00:00`);
-  if (Number.isNaN(parsed.getTime())) return date;
-  return new Intl.DateTimeFormat("es-AR", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(parsed);
+  if (!date || Number.isNaN(parsed.getTime())) return null;
+  const fmt = (options: Intl.DateTimeFormatOptions) =>
+    new Intl.DateTimeFormat("es-CO", options).format(parsed);
+  return {
+    weekday: fmt({ weekday: "long" }),
+    day: fmt({ day: "numeric" }),
+    month: fmt({ month: "long" }),
+    year: fmt({ year: "numeric" }),
+  };
 }
 
 export function WeddingDate() {
+  const parts = dateParts(weddingConfig.weddingDate);
+
   return (
-    <section className="section-rule py-12 text-center" aria-labelledby="fecha-title">
-      <CalendarDays className="mx-auto size-7 text-gold" strokeWidth={1} aria-hidden="true" />
-      <p className="section-kicker mt-4">Fecha</p>
-      <h2 id="fecha-title" className="mt-3 font-display text-2xl capitalize text-cream">
-        {displayDate(weddingConfig.weddingDate)}
+    <SectionReveal className="section-rule py-14 text-center" aria-labelledby="fecha-title">
+      <p className="section-kicker">Reserva la fecha</p>
+      <h2 id="fecha-title" className="sr-only">
+        {parts ? `${parts.weekday} ${parts.day} de ${parts.month} de ${parts.year}` : "Fecha por confirmar"}
+        {weddingConfig.weddingTime ? `, ${weddingConfig.weddingTime}` : ""}
       </h2>
-      {weddingConfig.weddingTime && <p className="mt-2 text-sm text-cream/70">{weddingConfig.weddingTime}</p>}
-      <FineDivider />
-      <p className="text-[0.58rem] uppercase tracking-[0.28em] text-cream/55">Ceremonia y recepción en la misma fecha</p>
-      <Countdown date={weddingConfig.weddingDate} />
-    </section>
+
+      {parts ? (
+        <div className="mx-auto mt-8 grid max-w-md grid-cols-[1fr_auto_1fr] items-center gap-4 sm:gap-6" aria-hidden="true">
+          <div className="border-y border-gold/40 py-3">
+            <span className="block text-[0.62rem] uppercase tracking-[0.34em] text-cream/75">{parts.weekday}</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-[0.62rem] uppercase tracking-[0.4em] text-gold">{parts.month}</span>
+            <span className="gold-foil font-display text-7xl leading-none sm:text-8xl">{parts.day}</span>
+            <span className="text-[0.62rem] tracking-[0.4em] text-gold">{parts.year}</span>
+          </div>
+          <div className="border-y border-gold/40 py-3">
+            <span className="block text-[0.62rem] uppercase tracking-[0.34em] text-cream/75">
+              {weddingConfig.weddingTime || "Hora por confirmar"}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <p className="mt-6 font-display text-2xl text-cream">Fecha por confirmar</p>
+      )}
+
+      <Flourish className="mt-8" />
+      <p className="mt-3 font-elegant text-lg italic text-cream/75">
+        Una noche buena para unir nuestras vidas
+      </p>
+      <Countdown date={weddingConfig.weddingDateTime || weddingConfig.weddingDate} />
+    </SectionReveal>
   );
 }

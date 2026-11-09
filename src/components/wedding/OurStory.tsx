@@ -30,11 +30,11 @@ export function OurStory() {
           <Hourglass className="size-5" strokeWidth={1} aria-hidden="true" />
         </motion.span>
       </div>
-      <p className="section-kicker mt-4 text-center">Nuestra historia</p>
+      <p className="mt-4 text-center"><span className="section-kicker">Nuestra historia</span></p>
       <h2 id="historia-title" className="sr-only">Nuestra historia</h2>
-      <div className="mt-7 space-y-7">
+      <div className="mt-8 space-y-5">
         {verses.map((verse, index) => (
-          <article key={verse.reference} className="grid grid-cols-[3.4rem_1fr] gap-4">
+          <article key={verse.reference} className="glass-card grid grid-cols-[2.4rem_1fr] gap-3 rounded-sm p-5">
             <motion.span
               animate={{ rotate: [-6, 6, -6], y: [0, -3, 0] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: index * 0.6 }}
@@ -43,7 +43,7 @@ export function OurStory() {
             </motion.span>
             <div className="border-l border-gold/30 pl-4">
               <motion.p
-                className="font-display text-lg italic leading-7 text-cream"
+                className="font-elegant text-xl italic leading-8 text-cream"
                 animate={{ opacity: [0.35, 1, 1, 0.35] }}
                 transition={{
                   duration: 7,
@@ -55,7 +55,7 @@ export function OurStory() {
               >
                 "{verse.text}"
               </motion.p>
-              <p className="section-kicker mt-3">{verse.reference}</p>
+              <p className="mt-3 text-[0.6rem] uppercase tracking-[0.34em] text-gold">{verse.reference}</p>
             </div>
           </article>
         ))}

@@ -1,7 +1,7 @@
 import { useState, type ImgHTMLAttributes } from "react";
 
 type ImageWithFallbackProps = ImgHTMLAttributes<HTMLImageElement> & {
-  fallback: string;
+  fallback?: string;
 };
 
 export function ImageWithFallback({ fallback, src, ...props }: ImageWithFallbackProps) {
@@ -12,7 +12,7 @@ export function ImageWithFallback({ fallback, src, ...props }: ImageWithFallback
       {...props}
       src={currentSrc}
       onError={() => {
-        if (currentSrc !== fallback) setCurrentSrc(fallback);
+        if (fallback && currentSrc !== fallback) setCurrentSrc(fallback);
       }}
     />
   );

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ballet&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=Montserrat:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ballet&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap');
 
 @import "tailwindcss" source(none);
 @source "../src";
@@ -23,6 +23,7 @@
 @theme inline {
   --font-display: "Bodoni Moda", serif;
   --font-script: "Ballet", cursive;
+  --font-elegant: "Cormorant Garamond", "Bodoni Moda", serif;
   --font-sans: "Montserrat", sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -69,6 +70,7 @@
 
   --color-forest: var(--forest);
   --color-forest-soft: var(--forest-soft);
+  --color-forest-deep: var(--forest-deep);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
   --color-cream: var(--cream);
@@ -126,8 +128,9 @@
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
 
-  --forest: oklch(0.32 0.04 145);
-  --forest-soft: oklch(0.37 0.045 145);
+  --forest: oklch(0.27 0.042 155);
+  --forest-soft: oklch(0.33 0.046 155);
+  --forest-deep: oklch(0.2 0.035 158);
 
   --gold: oklch(0.76 0.12 83);
   --gold-soft: oklch(0.85 0.09 84);
@@ -228,21 +231,66 @@
   font-family: var(--font-sans);
 }
 
+@utility font-elegant {
+  font-family: var(--font-elegant);
+}
+
 @utility section-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
   font-family: var(--font-sans);
   font-size: 0.62rem;
   font-weight: 500;
-  letter-spacing: 0.34em;
+  letter-spacing: 0.38em;
   text-transform: uppercase;
   color: var(--gold);
+
+  &::before,
+  &::after {
+    content: "";
+    width: 1.6rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+  }
+
+  &::after {
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
 }
 
 @utility section-rule {
-  border-top: 1px solid color-mix(
-    in oklab,
-    var(--gold) 24%,
+  position: relative;
+  border-top: 0;
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--gold) 45%, transparent) 50%,
     transparent
   );
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+
+/* Texto con efecto de lámina de oro */
+@utility gold-foil {
+  background: linear-gradient(
+    110deg,
+    #a8822e 0%,
+    #e9cf86 22%,
+    #fff3cc 34%,
+    #d4af37 48%,
+    #9c7522 64%,
+    #f1dc9a 82%,
+    #b8913a 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: foil-shine 9s ease-in-out infinite;
 }
 
 @utility shadow-luxury {
@@ -250,17 +298,125 @@
 }
 
 @utility bg-hero-veil {
+  background:
+    radial-gradient(ellipse at 50% 40%, transparent 0%, color-mix(in oklab, var(--forest-deep) 55%, transparent) 75%),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--forest-deep) 45%, transparent),
+      color-mix(in oklab, var(--forest) 35%, transparent) 40%,
+      var(--forest) 96%
+    );
+}
+
+body {
+  background:
+    radial-gradient(circle at 15% 0%, oklch(0.34 0.05 155 / 0.9), transparent 45%),
+    radial-gradient(circle at 90% 100%, oklch(0.3 0.04 150 / 0.8), transparent 50%),
+    var(--forest-deep);
+  background-attachment: fixed;
+}
+
+/* Textura de papel fino sobre el verde */
+.premium-surface {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% -10%, color-mix(in oklab, var(--gold) 9%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--forest-soft), var(--forest) 30%, var(--forest) 70%, var(--forest-deep));
+}
+
+.premium-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.08;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Marco doble dorado con esquinas */
+.gilded-frame {
+  position: relative;
+  border: 1px solid color-mix(in oklab, var(--gold) 55%, transparent);
+  outline: 1px solid color-mix(in oklab, var(--gold) 20%, transparent);
+  outline-offset: 6px;
+}
+
+.gilded-frame > .frame-corner {
+  position: absolute;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-color: var(--gold);
+  pointer-events: none;
+}
+
+.frame-corner.tl { top: -11px; left: -11px; border-top: 1px solid; border-left: 1px solid; }
+.frame-corner.tr { top: -11px; right: -11px; border-top: 1px solid; border-right: 1px solid; }
+.frame-corner.bl { bottom: -11px; left: -11px; border-bottom: 1px solid; border-left: 1px solid; }
+.frame-corner.br { bottom: -11px; right: -11px; border-bottom: 1px solid; border-right: 1px solid; }
+
+/* Tarjeta de vidrio esmerilado */
+.glass-card {
   background: linear-gradient(
-    to bottom,
-    color-mix(in oklab, var(--forest) 28%, transparent),
-    var(--forest) 92%
+    160deg,
+    color-mix(in oklab, var(--cream) 7%, transparent),
+    color-mix(in oklab, var(--cream) 2%, transparent)
   );
+  border: 1px solid color-mix(in oklab, var(--gold) 28%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--cream) 10%, transparent),
+    0 20px 50px -20px oklch(0.1 0.02 155 / 0.7);
+  backdrop-filter: blur(6px);
+}
+
+/* Campos de formulario premium */
+.premium-field {
+  background: color-mix(in oklab, var(--forest-deep) 55%, transparent) !important;
+  border-color: color-mix(in oklab, var(--gold) 35%, transparent) !important;
+  color: var(--cream) !important;
+  border-radius: 0.25rem !important;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.premium-field:focus-visible {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px var(--gold-glow) !important;
+  outline: none;
+}
+
+/* Brillo que recorre los botones dorados */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.45), transparent);
+  transform: skewX(-20deg);
+  animation: shine-sweep 5s ease-in-out infinite;
+}
+
+@keyframes shine-sweep {
+  0%, 60% { left: -60%; }
+  100% { left: 140%; }
+}
+
+@keyframes foil-shine {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
 }
 
 .wedding-shell {
   width: min(100%, 72rem);
   margin-inline: auto;
-  background: var(--forest);
   color: var(--cream);
   box-shadow: var(--shadow-luxury);
 }
