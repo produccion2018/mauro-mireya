@@ -1,4 +1,5 @@
 import { Heart } from "lucide-react";
+import { weddingConfig } from "@/config/wedding";
 import { shareMessage } from "@/lib/guest-name";
 import { BotanicalMark } from "./ornaments";
 
@@ -9,12 +10,12 @@ export function Footer({ guestName }: { guestName?: string }) {
         Gracias{guestName ? `, ${guestName}` : ""}
       </p>
 
-      <p className="mx-auto mt-5 max-w-md font-display text-xl italic leading-8 text-cream/80">
+      <p className="mx-auto mt-5 max-w-md font-elegant text-2xl italic leading-9 text-cream/85">
         {shareMessage(guestName)}
       </p>
 
       {guestName && (
-        <p className="mx-auto mt-4 max-w-md font-display text-base italic leading-7 text-gold">
+        <p className="mx-auto mt-4 max-w-md font-elegant text-lg italic leading-7 text-gold-soft">
           Que la bendición de Dios acompañe siempre a {guestName}.
         </p>
       )}
@@ -24,11 +25,14 @@ export function Footer({ guestName }: { guestName?: string }) {
       {/* M&M */}
       <div className="relative mt-7 flex justify-center">
         <p className="flex items-center gap-1 font-display text-4xl font-bold leading-none tracking-tight">
-          <span className="text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">M</span>
-          <span className="text-gold [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">&amp;</span>
-          <span className="text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">M</span>
+          <span className="gold-foil">M</span>
+          <span className="font-script text-3xl font-normal text-gold-soft">&amp;</span>
+          <span className="gold-foil">M</span>
         </p>
       </div>
+      <p className="mt-3 font-display text-xs tracking-[0.42em] text-gold/80">
+        {weddingConfig.weddingDate.split("-").reverse().join(" · ")}
+      </p>
 
       {/* ESCENA ANIMADA DE LOS NOVIOS */}
       <div

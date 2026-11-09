@@ -38,7 +38,7 @@ export function BigInterlockedRings() {
     <div className="relative mx-auto flex flex-col items-center" aria-label="M&M con anillos dorados">
       <div className="flex items-center justify-center gap-1 leading-none">
         <motion.span
-          className="font-display text-6xl font-bold leading-none tracking-tight text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]"
+          className="gold-foil font-display text-6xl font-semibold leading-none tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
@@ -46,7 +46,7 @@ export function BigInterlockedRings() {
           M
         </motion.span>
         <motion.span
-          className="font-display text-6xl font-bold leading-none tracking-tight text-gold [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]"
+          className="font-script text-5xl leading-none text-gold-soft drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.15 }}
@@ -54,7 +54,7 @@ export function BigInterlockedRings() {
           &amp;
         </motion.span>
         <motion.span
-          className="font-display text-6xl font-bold leading-none tracking-tight text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]"
+          className="gold-foil font-display text-6xl font-semibold leading-none tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
@@ -120,5 +120,40 @@ export function BigInterlockedRings() {
         </motion.g>
       </svg>
     </div>
+  );
+}
+/** Filigrana dorada simétrica para separar secciones. */
+export function Flourish({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 240 24"
+      className={`mx-auto h-5 w-48 text-gold ${className}`}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="0.8"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <path d="M4 12 H86" opacity="0.45" />
+      <path d="M236 12 H154" opacity="0.45" />
+      <path d="M86 12 C96 12 100 4 108 6 C114 8 112 15 106 14 C101 13 103 8 108 9" />
+      <path d="M154 12 C144 12 140 4 132 6 C126 8 128 15 134 14 C139 13 137 8 132 9" />
+      <path d="M86 12 C96 12 100 20 108 18" opacity="0.7" />
+      <path d="M154 12 C144 12 140 20 132 18" opacity="0.7" />
+      <path d="M120 4 L126 12 L120 20 L114 12 Z" fill="currentColor" fillOpacity="0.25" />
+      <circle cx="120" cy="12" r="1.4" fill="currentColor" />
+    </svg>
+  );
+}
+
+/** Esquinas doradas para usar dentro de un contenedor con clase `gilded-frame`. */
+export function FrameCorners() {
+  return (
+    <>
+      <span className="frame-corner tl" aria-hidden="true" />
+      <span className="frame-corner tr" aria-hidden="true" />
+      <span className="frame-corner bl" aria-hidden="true" />
+      <span className="frame-corner br" aria-hidden="true" />
+    </>
   );
 }

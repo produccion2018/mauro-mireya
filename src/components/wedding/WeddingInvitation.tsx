@@ -68,7 +68,7 @@ export function WeddingInvitation() {
   }, [opened]);
 
   return (
-    <main className="min-h-svh bg-forest">
+    <main className="min-h-svh">
       <audio
         ref={audioRef}
         src={weddingConfig.musicFile}
@@ -83,19 +83,19 @@ export function WeddingInvitation() {
           <WeddingIntro key="intro" onOpen={openInvitation} />
         ) : (
           <motion.div key="invitation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9 }}>
-            <div className="wedding-shell">
+            <div className="wedding-shell premium-surface">
               <div className="wedding-main">
                 <Hero guestName={guestName} />
                 <div className="px-5 sm:px-10">
                   <WeddingDate />
                   <Location />
-                  <footer className="section-rule py-12 text-center lg:block hidden">
+                  <footer className="section-rule py-14 text-center lg:block hidden">
                     <p className="section-kicker">Gracias{guestName ? `, ${guestName}` : ""}</p>
-                    <p className="mx-auto mt-4 max-w-md font-display text-xl italic leading-8 text-cream/75">
+                    <p className="mx-auto mt-5 max-w-md font-elegant text-2xl italic leading-9 text-cream/85">
                       {shareMessage(guestName)}
                     </p>
                     {guestName && (
-                      <p className="mx-auto mt-3 max-w-md font-display text-base italic leading-7 text-gold">
+                      <p className="mx-auto mt-3 max-w-md font-elegant text-lg italic leading-7 text-gold-soft">
                         Que la bendición de Dios acompañe siempre a {guestName}.
                       </p>
                     )}
@@ -121,7 +121,7 @@ export function WeddingInvitation() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="flex items-center gap-1 rounded-full border border-gold/40 bg-forest/95 p-1.5 shadow-luxury backdrop-blur">
+          <div className="flex items-center gap-1 rounded-full border border-gold/40 bg-forest-deep/80 p-1.5 shadow-luxury backdrop-blur-md">
             <Button
               variant="weddingIcon"
               size="icon"

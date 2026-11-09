@@ -14,13 +14,13 @@ export function DressCode() {
       </motion.div>
       <h2 id="vestimenta-title" className="sr-only">Unión matrimonial</h2>
       <motion.p
-        className="mx-auto mt-8 max-w-xs font-display text-base italic leading-7 text-cream/75"
+        className="mx-auto mt-8 max-w-xs font-elegant text-xl italic leading-8 text-cream/85"
         animate={{ opacity: [0.35, 1, 1, 0.35] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", times: [0, 0.3, 0.75, 1] }}
       >
         "Por tanto, dejará el hombre a su padre y a su madre, y se unirá a su mujer, y serán una sola carne."
       </motion.p>
-      <p className="section-kicker mt-2">Génesis 2:24</p>
+      <p className="mt-4"><span className="section-kicker">Génesis 2:24</span></p>
     </SectionReveal>
   );
 }

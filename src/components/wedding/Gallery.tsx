@@ -28,7 +28,7 @@ export function Gallery() {
   return (
     <SectionReveal className="section-rule py-11" aria-labelledby="galeria-title">
       <Images className="mx-auto size-6 text-gold" strokeWidth={1} aria-hidden="true" />
-      <p className="section-kicker mt-4 text-center">Galería</p>
+      <p className="mt-4 text-center"><span className="section-kicker">Galería</span></p>
       <h2 id="galeria-title" className="sr-only">Galería de fotos</h2>
 
       <div className="relative mt-10 overflow-hidden pb-2 pt-4">
@@ -76,7 +76,7 @@ export function Gallery() {
               />
               {/* marco polaroid */}
               <div
-                className={`border border-gold/25 bg-cream p-2 pb-4 shadow-luxury ${
+                className={`border border-gold/40 bg-[#fbf6ea] p-2 pb-6 shadow-luxury ${
                   photo.wide ? "w-52 sm:w-56" : "w-40 sm:w-44"
                 }`}
               >

@@ -1,8 +1,10 @@
 export const weddingConfig = {
   groomName: "Mauro",
   brideName: "Mireya",
-  weddingDate: "2026-12-26",
-  weddingTime: "",
+  weddingDate: "2026-12-24",
+  weddingTime: "7:00 p. m.",
+  // Fecha y hora exactas para la cuenta regresiva (hora de Bogotá, UTC-5).
+  weddingDateTime: "2026-12-24T19:00:00-05:00",
   ceremonyLocation: "",
   receptionLocation: "Santa Helena de Baviera 3 - Salón Social 1er piso",
   address: "Calle 146a #54c-86, Santa Helena de Baviera 3, Salón Social 1er piso, Bogotá, Colombia",
